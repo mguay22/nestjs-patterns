@@ -1,6 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { OrderFacadeService } from './order-facade.service.js';
-import type { PlaceOrderData } from './order-facade.service.js';
+import { OrderFacadeService } from './order-facade.service';
+import type { PlaceOrderData } from './order-facade.service';
 
 @Controller('facade')
 export class FacadeController {

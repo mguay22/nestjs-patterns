@@ -1,7 +1,7 @@
-import { IterableCollection, Iterator, Product } from './iterator.interface.js';
-import { PriceAscendingIterator } from './price-ascending.iterator.js';
-import { CategoryIterator } from './category.iterator.js';
-import { PaginatedIterator } from './paginated.iterator.js';
+import { IterableCollection, Iterator, Product } from './iterator.interface';
+import { PriceAscendingIterator } from './price-ascending.iterator';
+import { CategoryIterator } from './category.iterator';
+import { PaginatedIterator } from './paginated.iterator';
 
 export class ProductCollection implements IterableCollection<Product> {
   private readonly products: Product[];

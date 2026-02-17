@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ProductTemplate } from './product-template.js';
+import { ProductTemplate } from './product-template';
 
 @Injectable()
 export class TemplateRegistryService {

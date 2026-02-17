@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { Mediator } from './mediator.interface.js';
-import { InventoryColleague } from './inventory.colleague.js';
-import { PaymentColleague } from './payment.colleague.js';
-import { ShippingColleague } from './shipping.colleague.js';
-import { NotificationColleague } from './notification.colleague.js';
+import { Mediator } from './mediator.interface';
+import { InventoryColleague } from './inventory.colleague';
+import { PaymentColleague } from './payment.colleague';
+import { ShippingColleague } from './shipping.colleague';
+import { NotificationColleague } from './notification.colleague';
 
 interface OrderData {
   items: { name: string; qty: number; price: number }[];

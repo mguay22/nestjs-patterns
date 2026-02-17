@@ -1,8 +1,8 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
-import { InventoryService } from './inventory.service.js';
-import { PaymentService } from './payment.service.js';
-import { ShippingService } from './shipping.service.js';
-import { NotificationService } from './notification.service.js';
+import { InventoryService } from './inventory.service';
+import { PaymentService } from './payment.service';
+import { ShippingService } from './shipping.service';
+import { NotificationService } from './notification.service';
 
 export interface PlaceOrderData {
   items: { name: string; quantity: number; price: number }[];

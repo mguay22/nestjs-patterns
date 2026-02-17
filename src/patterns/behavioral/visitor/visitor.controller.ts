@@ -1,11 +1,11 @@
 import { Controller, Post, Body, BadRequestException } from '@nestjs/common';
-import { OrderItemElement } from './order-item-element.interface.js';
-import { PhysicalItem } from './physical-item.js';
-import { DigitalItem } from './digital-item.js';
-import { SubscriptionItem } from './subscription-item.js';
-import { TaxCalculatorVisitor } from './tax-calculator.visitor.js';
-import { ShippingCostVisitor } from './shipping-cost.visitor.js';
-import { DiscountVisitor } from './discount.visitor.js';
+import { OrderItemElement } from './order-item-element.interface';
+import { PhysicalItem } from './physical-item';
+import { DigitalItem } from './digital-item';
+import { SubscriptionItem } from './subscription-item';
+import { TaxCalculatorVisitor } from './tax-calculator.visitor';
+import { ShippingCostVisitor } from './shipping-cost.visitor';
+import { DiscountVisitor } from './discount.visitor';
 
 interface ItemInput {
   type: 'physical' | 'digital' | 'subscription';

@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { IteratorController } from './iterator.controller.js';
+import { IteratorController } from './iterator.controller';
 
 @Module({
   controllers: [IteratorController],

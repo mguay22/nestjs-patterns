@@ -1,6 +1,6 @@
-import { OrderState, OrderStateContext, StateTransitionResult } from './order-state.interface.js';
-import { ConfirmedState } from './confirmed.state.js';
-import { CancelledState } from './cancelled.state.js';
+import { OrderState, OrderStateContext, StateTransitionResult } from './order-state.interface';
+import { ConfirmedState } from './confirmed.state';
+import { CancelledState } from './cancelled.state';
 
 export class PendingState implements OrderState {
   getName(): string {

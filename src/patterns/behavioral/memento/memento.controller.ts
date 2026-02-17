@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body } from '@nestjs/common';
-import { CartHistoryService } from './cart-history.service.js';
+import { CartHistoryService } from './cart-history.service';
 
 @Controller('memento')
 export class MementoController {

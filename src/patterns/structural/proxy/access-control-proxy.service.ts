@@ -1,5 +1,5 @@
 import { Injectable, ForbiddenException } from '@nestjs/common';
-import type { Product, ProductCatalog } from './product-catalog.interface.js';
+import type { Product, ProductCatalog } from './product-catalog.interface';
 
 @Injectable()
 export class AccessControlProxyService implements ProductCatalog {

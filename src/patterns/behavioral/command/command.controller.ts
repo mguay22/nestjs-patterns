@@ -1,8 +1,8 @@
 import { Controller, Post, Get, Param, Body, BadRequestException } from '@nestjs/common';
-import { OrderCommandInvokerService } from './order-command-invoker.service.js';
-import { PlaceOrderCommand } from './place-order.command.js';
-import { CancelOrderCommand } from './cancel-order.command.js';
-import { RefundOrderCommand } from './refund-order.command.js';
+import { OrderCommandInvokerService } from './order-command-invoker.service';
+import { PlaceOrderCommand } from './place-order.command';
+import { CancelOrderCommand } from './cancel-order.command';
+import { RefundOrderCommand } from './refund-order.command';
 
 @Controller('command')
 export class CommandController {

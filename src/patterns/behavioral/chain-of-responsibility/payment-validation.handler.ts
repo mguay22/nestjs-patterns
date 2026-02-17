@@ -1,4 +1,4 @@
-import { OrderValidator, OrderData, ValidationResult } from './order-validator.interface.js';
+import { OrderValidator, OrderData, ValidationResult } from './order-validator.interface';
 
 export class PaymentValidationHandler extends OrderValidator {
   private readonly validPaymentMethods = ['credit_card', 'debit_card', 'paypal', 'bank_transfer'];

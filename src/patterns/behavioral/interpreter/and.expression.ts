@@ -1,4 +1,4 @@
-import { Expression, DiscountContext } from './expression.interface.js';
+import { Expression, DiscountContext } from './expression.interface';
 
 export class AndExpression implements Expression {
   constructor(

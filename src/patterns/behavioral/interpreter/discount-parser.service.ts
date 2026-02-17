@@ -1,9 +1,9 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
-import { Expression } from './expression.interface.js';
-import { PercentDiscountExpression } from './percent-discount.expression.js';
-import { FlatDiscountExpression } from './flat-discount.expression.js';
-import { ConditionalExpression, ConditionType } from './conditional.expression.js';
-import { AndExpression } from './and.expression.js';
+import { Expression } from './expression.interface';
+import { PercentDiscountExpression } from './percent-discount.expression';
+import { FlatDiscountExpression } from './flat-discount.expression';
+import { ConditionalExpression, ConditionType } from './conditional.expression';
+import { AndExpression } from './and.expression';
 
 @Injectable()
 export class DiscountParserService {

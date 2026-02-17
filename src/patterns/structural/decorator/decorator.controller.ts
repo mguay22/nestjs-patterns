@@ -1,10 +1,10 @@
 import { Body, Controller, Post, BadRequestException } from '@nestjs/common';
-import { OrderProcessor, OrderItem } from './order-processor.interface.js';
-import { BaseOrderProcessor } from './base-order-processor.js';
-import { LoggingDecorator } from './logging.decorator.js';
-import { ValidationDecorator } from './validation.decorator.js';
-import { DiscountDecorator } from './discount.decorator.js';
-import { TrackExecution } from './track-execution.decorator.js';
+import { OrderProcessor, OrderItem } from './order-processor.interface';
+import { BaseOrderProcessor } from './base-order-processor';
+import { LoggingDecorator } from './logging.decorator';
+import { ValidationDecorator } from './validation.decorator';
+import { DiscountDecorator } from './discount.decorator';
+import { TrackExecution } from './track-execution.decorator';
 
 interface ProcessOrderDto {
   items: OrderItem[];

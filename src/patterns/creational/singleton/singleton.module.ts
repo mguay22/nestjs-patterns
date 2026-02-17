@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { ConfigurationService } from './configuration.service.js';
-import { SingletonController } from './singleton.controller.js';
+import { ConfigurationService } from './configuration.service';
+import { SingletonController } from './singleton.controller';
 
 @Module({
   controllers: [SingletonController],

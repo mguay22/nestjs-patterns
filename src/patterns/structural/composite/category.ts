@@ -1,4 +1,4 @@
-import { CatalogComponent } from './catalog-component.interface.js';
+import { CatalogComponent } from './catalog-component.interface';
 
 export class Category implements CatalogComponent {
   private readonly children: CatalogComponent[] = [];

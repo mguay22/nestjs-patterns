@@ -1,4 +1,4 @@
-import { Prototype } from './product-prototype.interface.js';
+import { Prototype } from './product-prototype.interface';
 
 export class ProductTemplate implements Prototype<ProductTemplate> {
   constructor(

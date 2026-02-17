@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Command, CommandResult } from './command.interface.js';
+import { Command, CommandResult } from './command.interface';
 
 export interface HistoryEntry {
   commandName: string;

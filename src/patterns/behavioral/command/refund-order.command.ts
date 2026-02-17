@@ -1,4 +1,4 @@
-import { Command, CommandResult } from './command.interface.js';
+import { Command, CommandResult } from './command.interface';
 
 export class RefundOrderCommand implements Command {
   readonly name = 'RefundOrder';

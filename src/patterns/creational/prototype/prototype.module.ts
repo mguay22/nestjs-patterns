@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { PrototypeController } from './prototype.controller.js';
-import { TemplateRegistryService } from './template-registry.service.js';
+import { PrototypeController } from './prototype.controller';
+import { TemplateRegistryService } from './template-registry.service';
 
 @Module({
   controllers: [PrototypeController],

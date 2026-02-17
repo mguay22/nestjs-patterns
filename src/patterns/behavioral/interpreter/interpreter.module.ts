@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { InterpreterController } from './interpreter.controller.js';
-import { DiscountParserService } from './discount-parser.service.js';
+import { InterpreterController } from './interpreter.controller';
+import { DiscountParserService } from './discount-parser.service';
 
 @Module({
   controllers: [InterpreterController],

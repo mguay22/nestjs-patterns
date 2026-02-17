@@ -1,5 +1,5 @@
-import { OrderState, OrderStateContext, StateTransitionResult } from './order-state.interface.js';
-import { PendingState } from './pending.state.js';
+import { OrderState, OrderStateContext, StateTransitionResult } from './order-state.interface';
+import { PendingState } from './pending.state';
 
 export interface HistoryEntry {
   action: string;

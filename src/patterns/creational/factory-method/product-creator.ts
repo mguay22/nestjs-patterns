@@ -1,4 +1,4 @@
-import { Product } from './product.interface.js';
+import { Product } from './product.interface';
 
 export interface CreateProductData {
   name: string;

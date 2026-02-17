@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { FlyweightController } from './flyweight.controller.js';
-import { ProductTypeFactoryService } from './product-type-factory.service.js';
+import { FlyweightController } from './flyweight.controller';
+import { ProductTypeFactoryService } from './product-type-factory.service';
 
 @Module({
   controllers: [FlyweightController],

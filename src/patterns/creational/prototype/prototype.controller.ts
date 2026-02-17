@@ -6,7 +6,7 @@ import {
   Post,
   NotFoundException,
 } from '@nestjs/common';
-import { TemplateRegistryService } from './template-registry.service.js';
+import { TemplateRegistryService } from './template-registry.service';
 
 interface CloneProductDto {
   customizations?: {

@@ -5,8 +5,8 @@ import {
   Query,
   NotFoundException,
 } from '@nestjs/common';
-import { CachingProxyService } from './caching-proxy.service.js';
-import { AccessControlProxyService } from './access-control-proxy.service.js';
+import { CachingProxyService } from './caching-proxy.service';
+import { AccessControlProxyService } from './access-control-proxy.service';
 
 @Controller('proxy')
 export class ProxyController {

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { ChainOfResponsibilityController } from './chain-of-responsibility.controller.js';
-import { ValidationChainService } from './validation-chain.service.js';
+import { ChainOfResponsibilityController } from './chain-of-responsibility.controller';
+import { ValidationChainService } from './validation-chain.service';
 
 @Module({
   controllers: [ChainOfResponsibilityController],

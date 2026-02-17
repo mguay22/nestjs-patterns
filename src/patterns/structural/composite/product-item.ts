@@ -1,4 +1,4 @@
-import { CatalogComponent } from './catalog-component.interface.js';
+import { CatalogComponent } from './catalog-component.interface';
 
 export class ProductItem implements CatalogComponent {
   constructor(

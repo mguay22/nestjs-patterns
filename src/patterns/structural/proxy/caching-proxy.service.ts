@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { Product, ProductCatalog } from './product-catalog.interface.js';
-import { ProductCatalogService } from './product-catalog.service.js';
+import { Product, ProductCatalog } from './product-catalog.interface';
+import { ProductCatalogService } from './product-catalog.service';
 
 @Injectable()
 export class CachingProxyService implements ProductCatalog {

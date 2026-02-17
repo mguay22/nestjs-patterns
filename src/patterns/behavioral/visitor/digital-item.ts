@@ -1,5 +1,5 @@
-import { OrderItemElement } from './order-item-element.interface.js';
-import { OrderVisitor } from './order-visitor.interface.js';
+import { OrderItemElement } from './order-item-element.interface';
+import { OrderVisitor } from './order-visitor.interface';
 
 export class DigitalItem implements OrderItemElement {
   constructor(

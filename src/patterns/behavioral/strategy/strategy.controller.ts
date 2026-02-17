@@ -1,9 +1,9 @@
 import { Controller, Post, Body, BadRequestException } from '@nestjs/common';
-import { PricingService } from './pricing.service.js';
-import { PercentageDiscountStrategy } from './percentage-discount.strategy.js';
-import { FlatDiscountStrategy } from './flat-discount.strategy.js';
-import { BogoStrategy } from './bogo.strategy.js';
-import { TieredPricingStrategy } from './tiered-pricing.strategy.js';
+import { PricingService } from './pricing.service';
+import { PercentageDiscountStrategy } from './percentage-discount.strategy';
+import { FlatDiscountStrategy } from './flat-discount.strategy';
+import { BogoStrategy } from './bogo.strategy';
+import { TieredPricingStrategy } from './tiered-pricing.strategy';
 
 @Controller('strategy')
 export class StrategyController {

@@ -1,4 +1,4 @@
-import { OrderVisitor } from './order-visitor.interface.js';
+import { OrderVisitor } from './order-visitor.interface';
 
 export class DiscountVisitor implements OrderVisitor {
   visitPhysicalItem(_item: { name: string; price: number; quantity: number }): number {

@@ -1,6 +1,6 @@
 import { Controller, Get, Query } from '@nestjs/common';
-import { ProductCollection } from './product-collection.js';
-import { Product } from './iterator.interface.js';
+import { ProductCollection } from './product-collection';
+import { Product } from './iterator.interface';
 
 @Controller('iterator')
 export class IteratorController {

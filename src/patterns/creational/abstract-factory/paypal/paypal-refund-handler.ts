@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { RefundHandler } from '../payment.interfaces.js';
+import { RefundHandler } from '../payment.interfaces';
 
 export class PaypalRefundHandler implements RefundHandler {
   processRefund(transactionId: string, amount: number) {

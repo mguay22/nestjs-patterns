@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { CatalogService } from './catalog.service.js';
+import { CatalogService } from './catalog.service';
 
 @Controller('composite')
 export class CompositeController {

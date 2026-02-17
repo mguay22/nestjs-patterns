@@ -2,7 +2,7 @@ import {
   OrderProcessor,
   OrderData,
   ProcessedOrder,
-} from './order-processor.interface.js';
+} from './order-processor.interface';
 
 export class DiscountDecorator implements OrderProcessor {
   constructor(

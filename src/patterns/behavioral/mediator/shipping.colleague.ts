@@ -1,4 +1,4 @@
-import { Colleague } from './colleague.interface.js';
+import { Colleague } from './colleague.interface';
 
 export class ShippingColleague extends Colleague {
   getName(): string {

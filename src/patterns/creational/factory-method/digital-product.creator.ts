@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { ProductCreator, CreateProductData } from './product-creator.js';
-import { Product } from './product.interface.js';
+import { ProductCreator, CreateProductData } from './product-creator';
+import { Product } from './product.interface';
 
 @Injectable()
 export class DigitalProductCreator extends ProductCreator {

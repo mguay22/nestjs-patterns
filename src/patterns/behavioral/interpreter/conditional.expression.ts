@@ -1,4 +1,4 @@
-import { Expression, DiscountContext } from './expression.interface.js';
+import { Expression, DiscountContext } from './expression.interface';
 
 export type ConditionType = 'TOTAL_ABOVE' | 'ITEMS_ABOVE' | 'CUSTOMER_IS';
 

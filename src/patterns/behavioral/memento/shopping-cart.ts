@@ -1,4 +1,4 @@
-import { CartMemento, CartItem } from './cart-memento.js';
+import { CartMemento, CartItem } from './cart-memento';
 
 export class ShoppingCart {
   private items: CartItem[] = [];

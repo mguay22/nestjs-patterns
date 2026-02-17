@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { CartMemento } from './cart-memento.js';
-import { ShoppingCart } from './shopping-cart.js';
+import { CartMemento } from './cart-memento';
+import { ShoppingCart } from './shopping-cart';
 
 @Injectable()
 export class CartHistoryService {

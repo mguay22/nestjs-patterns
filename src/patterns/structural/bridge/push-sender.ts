@@ -1,7 +1,7 @@
 import {
   NotificationSender,
   NotificationResult,
-} from './notification-sender.interface.js';
+} from './notification-sender.interface';
 
 export class PushSender implements NotificationSender {
   send(to: string, subject: string, body: string): NotificationResult {

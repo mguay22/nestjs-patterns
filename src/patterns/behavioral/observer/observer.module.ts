@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { EventEmitterModule } from '@nestjs/event-emitter';
-import { ObserverController } from './observer.controller.js';
-import { OrderService } from './order.service.js';
-import { InventoryObserver } from './inventory.observer.js';
-import { AnalyticsObserver } from './analytics.observer.js';
-import { EmailObserver } from './email.observer.js';
+import { ObserverController } from './observer.controller';
+import { OrderService } from './order.service';
+import { InventoryObserver } from './inventory.observer';
+import { AnalyticsObserver } from './analytics.observer';
+import { EmailObserver } from './email.observer';
 
 @Module({
   imports: [EventEmitterModule.forRoot()],

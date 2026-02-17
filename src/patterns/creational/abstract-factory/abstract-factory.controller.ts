@@ -1,7 +1,7 @@
 import { Body, Controller, Post, BadRequestException } from '@nestjs/common';
-import { StripeFactory } from './stripe/stripe.factory.js';
-import { PaypalFactory } from './paypal/paypal.factory.js';
-import { PaymentFactory } from './payment-factory.interface.js';
+import { StripeFactory } from './stripe/stripe.factory';
+import { PaypalFactory } from './paypal/paypal.factory';
+import { PaymentFactory } from './payment-factory.interface';
 
 interface CheckoutDto {
   provider: 'stripe' | 'paypal';

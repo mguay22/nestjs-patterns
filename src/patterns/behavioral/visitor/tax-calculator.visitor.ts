@@ -1,4 +1,4 @@
-import { OrderVisitor } from './order-visitor.interface.js';
+import { OrderVisitor } from './order-visitor.interface';
 
 export class TaxCalculatorVisitor implements OrderVisitor {
   visitPhysicalItem(item: { name: string; price: number; quantity: number }): number {

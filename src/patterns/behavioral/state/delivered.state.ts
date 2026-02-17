@@ -1,4 +1,4 @@
-import { OrderState, OrderStateContext, StateTransitionResult } from './order-state.interface.js';
+import { OrderState, OrderStateContext, StateTransitionResult } from './order-state.interface';
 
 export class DeliveredState implements OrderState {
   getName(): string {

@@ -1,4 +1,4 @@
-import { PricingStrategy, PricingResult } from './pricing-strategy.interface.js';
+import { PricingStrategy, PricingResult } from './pricing-strategy.interface';
 
 export class FlatDiscountStrategy implements PricingStrategy {
   constructor(private readonly flatAmount: number) {}

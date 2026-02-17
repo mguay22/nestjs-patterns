@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PricingStrategy, PricingResult } from './pricing-strategy.interface.js';
+import { PricingStrategy, PricingResult } from './pricing-strategy.interface';
 
 @Injectable()
 export class PricingService {

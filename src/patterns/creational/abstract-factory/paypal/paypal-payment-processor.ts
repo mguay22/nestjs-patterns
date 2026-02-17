@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { PaymentProcessor } from '../payment.interfaces.js';
+import { PaymentProcessor } from '../payment.interfaces';
 
 export class PaypalPaymentProcessor implements PaymentProcessor {
   processPayment(amount: number) {

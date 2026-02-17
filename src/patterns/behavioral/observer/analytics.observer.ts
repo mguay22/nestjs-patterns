@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
-import { OrderCreatedEvent } from './order-event.js';
+import { OrderCreatedEvent } from './order-event';
 
 @Injectable()
 export class AnalyticsObserver {

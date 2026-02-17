@@ -1,6 +1,6 @@
 import { Controller, Post, Body } from '@nestjs/common';
-import { ValidationChainService } from './validation-chain.service.js';
-import type { OrderData } from './order-validator.interface.js';
+import { ValidationChainService } from './validation-chain.service';
+import type { OrderData } from './order-validator.interface';
 
 @Controller('chain')
 export class ChainOfResponsibilityController {

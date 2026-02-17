@@ -1,4 +1,4 @@
-import { PaymentProcessor, RefundHandler } from './payment.interfaces.js';
+import { PaymentProcessor, RefundHandler } from './payment.interfaces';
 
 export interface PaymentFactory {
   createPaymentProcessor(): PaymentProcessor;

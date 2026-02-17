@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { AdapterController } from './adapter.controller.js';
-import { StripeApi } from './stripe-api.js';
-import { PayPalApi } from './paypal-api.js';
-import { StripeAdapter } from './stripe.adapter.js';
-import { PayPalAdapter } from './paypal.adapter.js';
+import { AdapterController } from './adapter.controller';
+import { StripeApi } from './stripe-api';
+import { PayPalApi } from './paypal-api';
+import { StripeAdapter } from './stripe.adapter';
+import { PayPalAdapter } from './paypal.adapter';
 
 @Module({
   controllers: [AdapterController],

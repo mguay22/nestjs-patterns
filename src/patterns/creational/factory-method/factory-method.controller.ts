@@ -1,8 +1,8 @@
 import { Body, Controller, Post, BadRequestException } from '@nestjs/common';
-import { PhysicalProductCreator } from './physical-product.creator.js';
-import { DigitalProductCreator } from './digital-product.creator.js';
-import { SubscriptionProductCreator } from './subscription-product.creator.js';
-import { ProductCreator } from './product-creator.js';
+import { PhysicalProductCreator } from './physical-product.creator';
+import { DigitalProductCreator } from './digital-product.creator';
+import { SubscriptionProductCreator } from './subscription-product.creator';
+import { ProductCreator } from './product-creator';
 
 interface CreateProductDto {
   type: 'physical' | 'digital' | 'subscription';

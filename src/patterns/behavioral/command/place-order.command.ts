@@ -1,4 +1,4 @@
-import { Command, CommandResult } from './command.interface.js';
+import { Command, CommandResult } from './command.interface';
 
 export class PlaceOrderCommand implements Command {
   readonly name = 'PlaceOrder';

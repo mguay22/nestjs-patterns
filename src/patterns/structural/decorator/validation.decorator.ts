@@ -3,7 +3,7 @@ import {
   OrderProcessor,
   OrderData,
   ProcessedOrder,
-} from './order-processor.interface.js';
+} from './order-processor.interface';
 
 export class ValidationDecorator implements OrderProcessor {
   constructor(private readonly wrapped: OrderProcessor) {}

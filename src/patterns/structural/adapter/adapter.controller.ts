@@ -1,7 +1,7 @@
 import { Body, Controller, Post, BadRequestException } from '@nestjs/common';
-import { StripeAdapter } from './stripe.adapter.js';
-import { PayPalAdapter } from './paypal.adapter.js';
-import { PaymentGateway } from './payment-gateway.interface.js';
+import { StripeAdapter } from './stripe.adapter';
+import { PayPalAdapter } from './paypal.adapter';
+import { PaymentGateway } from './payment-gateway.interface';
 
 interface PaymentDto {
   gateway: 'stripe' | 'paypal';

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { CommandController } from './command.controller.js';
-import { OrderCommandInvokerService } from './order-command-invoker.service.js';
+import { CommandController } from './command.controller';
+import { OrderCommandInvokerService } from './order-command-invoker.service';
 
 @Module({
   controllers: [CommandController],

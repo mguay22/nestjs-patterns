@@ -1,5 +1,5 @@
-import { OrderBuilder } from './order-builder.js';
-import { Order } from './order.js';
+import { OrderBuilder } from './order-builder';
+import { Order } from './order';
 
 export interface DirectorItem {
   name: string;

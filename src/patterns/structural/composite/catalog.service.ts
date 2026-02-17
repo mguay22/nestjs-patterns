@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { Category } from './category.js';
-import { ProductItem } from './product-item.js';
-import { CatalogComponent } from './catalog-component.interface.js';
+import { Category } from './category';
+import { ProductItem } from './product-item';
+import { CatalogComponent } from './catalog-component.interface';
 
 @Injectable()
 export class CatalogService {

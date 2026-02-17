@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { AbstractFactoryController } from './abstract-factory.controller.js';
-import { StripeFactory } from './stripe/stripe.factory.js';
-import { PaypalFactory } from './paypal/paypal.factory.js';
+import { AbstractFactoryController } from './abstract-factory.controller';
+import { StripeFactory } from './stripe/stripe.factory';
+import { PaypalFactory } from './paypal/paypal.factory';
 
 @Module({
   controllers: [AbstractFactoryController],

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Product, ProductCatalog } from './product-catalog.interface.js';
+import { Product, ProductCatalog } from './product-catalog.interface';
 
 @Injectable()
 export class ProductCatalogService implements ProductCatalog {

@@ -1,6 +1,6 @@
-import { OrderState, OrderStateContext, StateTransitionResult } from './order-state.interface.js';
-import { ShippedState } from './shipped.state.js';
-import { CancelledState } from './cancelled.state.js';
+import { OrderState, OrderStateContext, StateTransitionResult } from './order-state.interface';
+import { ShippedState } from './shipped.state';
+import { CancelledState } from './cancelled.state';
 
 export class ConfirmedState implements OrderState {
   getName(): string {

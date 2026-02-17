@@ -1,7 +1,7 @@
 import {
   NotificationSender,
   NotificationResult,
-} from './notification-sender.interface.js';
+} from './notification-sender.interface';
 
 export abstract class Notification {
   constructor(protected readonly sender: NotificationSender) {}

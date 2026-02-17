@@ -1,5 +1,5 @@
-import { Notification } from './notification.js';
-import { NotificationSender } from './notification-sender.interface.js';
+import { Notification } from './notification';
+import { NotificationSender } from './notification-sender.interface';
 
 export class OrderConfirmationNotification extends Notification {
   constructor(

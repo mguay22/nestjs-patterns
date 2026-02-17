@@ -1,4 +1,4 @@
-import { ReportGenerator, ReportData } from './report-generator.js';
+import { ReportGenerator, ReportData } from './report-generator';
 
 export class CustomerReportGenerator extends ReportGenerator {
   protected gatherData(): Record<string, any>[] {

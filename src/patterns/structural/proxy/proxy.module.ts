@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { ProxyController } from './proxy.controller.js';
-import { ProductCatalogService } from './product-catalog.service.js';
-import { CachingProxyService } from './caching-proxy.service.js';
-import { AccessControlProxyService } from './access-control-proxy.service.js';
+import { ProxyController } from './proxy.controller';
+import { ProductCatalogService } from './product-catalog.service';
+import { CachingProxyService } from './caching-proxy.service';
+import { AccessControlProxyService } from './access-control-proxy.service';
 
 @Module({
   controllers: [ProxyController],

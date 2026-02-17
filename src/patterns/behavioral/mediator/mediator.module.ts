@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { MediatorController } from './mediator.controller.js';
-import { OrderMediatorService } from './order-mediator.service.js';
+import { MediatorController } from './mediator.controller';
+import { OrderMediatorService } from './order-mediator.service';
 
 @Module({
   controllers: [MediatorController],

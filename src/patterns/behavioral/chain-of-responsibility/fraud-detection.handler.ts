@@ -1,4 +1,4 @@
-import { OrderValidator, OrderData, ValidationResult } from './order-validator.interface.js';
+import { OrderValidator, OrderData, ValidationResult } from './order-validator.interface';
 
 export class FraudDetectionHandler extends OrderValidator {
   private readonly suspiciousCountries = ['XX', 'YY', 'ZZ'];

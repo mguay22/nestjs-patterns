@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { TemplateMethodController } from './template-method.controller.js';
+import { TemplateMethodController } from './template-method.controller';
 
 @Module({
   controllers: [TemplateMethodController],

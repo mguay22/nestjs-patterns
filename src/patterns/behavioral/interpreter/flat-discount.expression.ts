@@ -1,4 +1,4 @@
-import { Expression, DiscountContext } from './expression.interface.js';
+import { Expression, DiscountContext } from './expression.interface';
 
 export class FlatDiscountExpression implements Expression {
   constructor(private readonly amount: number) {}

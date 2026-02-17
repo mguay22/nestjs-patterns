@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { OrderValidator, OrderData, ValidationResult } from './order-validator.interface.js';
-import { InventoryCheckHandler } from './inventory-check.handler.js';
-import { PaymentValidationHandler } from './payment-validation.handler.js';
-import { FraudDetectionHandler } from './fraud-detection.handler.js';
-import { AddressValidationHandler } from './address-validation.handler.js';
+import { OrderValidator, OrderData, ValidationResult } from './order-validator.interface';
+import { InventoryCheckHandler } from './inventory-check.handler';
+import { PaymentValidationHandler } from './payment-validation.handler';
+import { FraudDetectionHandler } from './fraud-detection.handler';
+import { AddressValidationHandler } from './address-validation.handler';
 
 @Injectable()
 export class ValidationChainService {

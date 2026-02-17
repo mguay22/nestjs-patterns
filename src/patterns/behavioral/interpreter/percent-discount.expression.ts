@@ -1,4 +1,4 @@
-import { Expression, DiscountContext } from './expression.interface.js';
+import { Expression, DiscountContext } from './expression.interface';
 
 export class PercentDiscountExpression implements Expression {
   constructor(private readonly percentage: number) {}

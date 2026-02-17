@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { MementoController } from './memento.controller.js';
-import { CartHistoryService } from './cart-history.service.js';
+import { MementoController } from './memento.controller';
+import { CartHistoryService } from './cart-history.service';
 
 @Module({
   controllers: [MementoController],

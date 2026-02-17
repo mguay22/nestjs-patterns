@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Order } from './order.js';
+import { Order } from './order';
 
 @Injectable()
 export class OrderBuilder {

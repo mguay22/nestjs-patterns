@@ -1,5 +1,5 @@
 import { Controller, Post, Body } from '@nestjs/common';
-import { OrderMediatorService } from './order-mediator.service.js';
+import { OrderMediatorService } from './order-mediator.service';
 
 @Controller('mediator')
 export class MediatorController {

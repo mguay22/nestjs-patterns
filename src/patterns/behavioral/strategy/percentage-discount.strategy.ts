@@ -1,4 +1,4 @@
-import { PricingStrategy, PricingResult } from './pricing-strategy.interface.js';
+import { PricingStrategy, PricingResult } from './pricing-strategy.interface';
 
 export class PercentageDiscountStrategy implements PricingStrategy {
   constructor(private readonly percentage: number) {}

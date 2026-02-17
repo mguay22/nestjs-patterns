@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { BuilderController } from './builder.controller.js';
-import { OrderBuilder } from './order-builder.js';
+import { BuilderController } from './builder.controller';
+import { OrderBuilder } from './order-builder';
 
 @Module({
   controllers: [BuilderController],

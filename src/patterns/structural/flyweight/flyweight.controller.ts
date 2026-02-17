@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
-import { ProductTypeFactoryService } from './product-type-factory.service.js';
-import { ProductVariant } from './product-variant.js';
+import { ProductTypeFactoryService } from './product-type-factory.service';
+import { ProductVariant } from './product-variant';
 
 @Controller('flyweight')
 export class FlyweightController {

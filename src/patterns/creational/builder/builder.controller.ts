@@ -1,6 +1,6 @@
 import { Body, Controller, Post, BadRequestException } from '@nestjs/common';
-import { OrderBuilder } from './order-builder.js';
-import { OrderDirector } from './order-director.js';
+import { OrderBuilder } from './order-builder';
+import { OrderDirector } from './order-director';
 
 interface OrderItemDto {
   name: string;

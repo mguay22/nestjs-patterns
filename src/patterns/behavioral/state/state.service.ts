@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
-import { OrderContext } from './order-context.js';
+import { OrderContext } from './order-context';
 
 @Injectable()
 export class StateService {

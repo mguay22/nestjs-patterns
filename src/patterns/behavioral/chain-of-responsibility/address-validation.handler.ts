@@ -1,4 +1,4 @@
-import { OrderValidator, OrderData, ValidationResult } from './order-validator.interface.js';
+import { OrderValidator, OrderData, ValidationResult } from './order-validator.interface';
 
 export class AddressValidationHandler extends OrderValidator {
   protected async check(order: OrderData): Promise<ValidationResult> {

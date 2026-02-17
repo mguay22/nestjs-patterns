@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { PaymentGateway, PaymentResult } from './payment-gateway.interface.js';
-import { PayPalApi } from './paypal-api.js';
+import { PaymentGateway, PaymentResult } from './payment-gateway.interface';
+import { PayPalApi } from './paypal-api';
 
 @Injectable()
 export class PayPalAdapter implements PaymentGateway {

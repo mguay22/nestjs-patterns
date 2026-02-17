@@ -1,4 +1,4 @@
-import { ProductType } from './product-type.js';
+import { ProductType } from './product-type';
 
 export class ProductVariant {
   constructor(

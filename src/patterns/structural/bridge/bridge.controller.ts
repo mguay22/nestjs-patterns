@@ -1,11 +1,11 @@
 import { Body, Controller, Post, BadRequestException } from '@nestjs/common';
-import { NotificationSender } from './notification-sender.interface.js';
-import { EmailSender } from './email-sender.js';
-import { SmsSender } from './sms-sender.js';
-import { PushSender } from './push-sender.js';
-import { Notification } from './notification.js';
-import { OrderConfirmationNotification } from './order-confirmation.notification.js';
-import { ShippingUpdateNotification } from './shipping-update.notification.js';
+import { NotificationSender } from './notification-sender.interface';
+import { EmailSender } from './email-sender';
+import { SmsSender } from './sms-sender';
+import { PushSender } from './push-sender';
+import { Notification } from './notification';
+import { OrderConfirmationNotification } from './order-confirmation.notification';
+import { ShippingUpdateNotification } from './shipping-update.notification';
 
 interface NotifyDto {
   type: 'order-confirmation' | 'shipping-update';

@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { FactoryMethodController } from './factory-method.controller.js';
-import { PhysicalProductCreator } from './physical-product.creator.js';
-import { DigitalProductCreator } from './digital-product.creator.js';
-import { SubscriptionProductCreator } from './subscription-product.creator.js';
+import { FactoryMethodController } from './factory-method.controller';
+import { PhysicalProductCreator } from './physical-product.creator';
+import { DigitalProductCreator } from './digital-product.creator';
+import { SubscriptionProductCreator } from './subscription-product.creator';
 
 @Module({
   controllers: [FactoryMethodController],

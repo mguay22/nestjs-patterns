@@ -1,4 +1,4 @@
-import { Mediator } from './mediator.interface.js';
+import { Mediator } from './mediator.interface';
 
 export abstract class Colleague {
   protected mediator!: Mediator;

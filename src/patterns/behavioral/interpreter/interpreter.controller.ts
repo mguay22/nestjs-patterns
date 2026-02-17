@@ -1,6 +1,6 @@
 import { Controller, Post, Body } from '@nestjs/common';
-import { DiscountParserService } from './discount-parser.service.js';
-import { DiscountContext } from './expression.interface.js';
+import { DiscountParserService } from './discount-parser.service';
+import { DiscountContext } from './expression.interface';
 
 @Controller('interpreter')
 export class InterpreterController {

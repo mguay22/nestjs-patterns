@@ -1,8 +1,8 @@
 import { Controller, Get, Param, BadRequestException } from '@nestjs/common';
-import { ReportGenerator } from './report-generator.js';
-import { SalesReportGenerator } from './sales-report.generator.js';
-import { InventoryReportGenerator } from './inventory-report.generator.js';
-import { CustomerReportGenerator } from './customer-report.generator.js';
+import { ReportGenerator } from './report-generator';
+import { SalesReportGenerator } from './sales-report.generator';
+import { InventoryReportGenerator } from './inventory-report.generator';
+import { CustomerReportGenerator } from './customer-report.generator';
 
 @Controller('template-method')
 export class TemplateMethodController {

@@ -1,4 +1,4 @@
-import { OrderVisitor } from './order-visitor.interface.js';
+import { OrderVisitor } from './order-visitor.interface';
 
 export interface OrderItemElement {
   name: string;

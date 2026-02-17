@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { FacadeController } from './facade.controller.js';
-import { InventoryService } from './inventory.service.js';
-import { PaymentService } from './payment.service.js';
-import { ShippingService } from './shipping.service.js';
-import { NotificationService } from './notification.service.js';
-import { OrderFacadeService } from './order-facade.service.js';
+import { FacadeController } from './facade.controller';
+import { InventoryService } from './inventory.service';
+import { PaymentService } from './payment.service';
+import { ShippingService } from './shipping.service';
+import { NotificationService } from './notification.service';
+import { OrderFacadeService } from './order-facade.service';
 
 @Module({
   controllers: [FacadeController],

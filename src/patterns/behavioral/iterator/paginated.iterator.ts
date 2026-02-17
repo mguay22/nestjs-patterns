@@ -1,4 +1,4 @@
-import { Iterator, Product } from './iterator.interface.js';
+import { Iterator, Product } from './iterator.interface';
 
 export class PaginatedIterator implements Iterator<Product[]> {
   private currentPage = 0;

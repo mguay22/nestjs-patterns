@@ -1,4 +1,4 @@
-import { OrderValidator, OrderData, ValidationResult } from './order-validator.interface.js';
+import { OrderValidator, OrderData, ValidationResult } from './order-validator.interface';
 
 export class InventoryCheckHandler extends OrderValidator {
   private readonly outOfStockItems = ['discontinued-widget', 'old-model-phone'];

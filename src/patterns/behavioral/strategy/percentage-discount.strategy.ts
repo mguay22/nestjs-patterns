@@ -1,6 +1,10 @@
+import { Injectable } from '@nestjs/common';
 import { PricingStrategy, PricingResult } from './pricing-strategy.interface';
 
+@Injectable()
 export class PercentageDiscountStrategy implements PricingStrategy {
+  readonly name = 'percentage';
+
   constructor(private readonly percentage: number) {}
 
   calculate(basePrice: number, quantity: number): PricingResult {

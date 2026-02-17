@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { SingletonModule } from './patterns/creational/singleton/singleton.module';
@@ -27,6 +28,7 @@ import { VisitorModule } from './patterns/behavioral/visitor/visitor.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
     SingletonModule,
     FactoryMethodModule,
     AbstractFactoryModule,

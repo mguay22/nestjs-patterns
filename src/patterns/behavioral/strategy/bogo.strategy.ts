@@ -1,6 +1,10 @@
+import { Injectable } from '@nestjs/common';
 import { PricingStrategy, PricingResult } from './pricing-strategy.interface';
 
+@Injectable()
 export class BogoStrategy implements PricingStrategy {
+  readonly name = 'bogo';
+
   calculate(basePrice: number, quantity: number): PricingResult {
     const freeItems = Math.floor(quantity / 2);
     const paidItems = quantity - freeItems;

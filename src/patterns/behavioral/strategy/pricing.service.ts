@@ -1,24 +1,43 @@
-import { Injectable } from '@nestjs/common';
-import { PricingStrategy, PricingResult } from './pricing-strategy.interface';
+import { Inject, Injectable, BadRequestException } from '@nestjs/common';
+import type { PricingStrategy, PricingResult } from './pricing-strategy.interface';
+import { PRICING_STRATEGY } from './pricing-strategy.interface';
 
 @Injectable()
 export class PricingService {
-  private strategy: PricingStrategy | null = null;
+  private readonly strategies: Map<string, PricingStrategy>;
 
-  setStrategy(strategy: PricingStrategy): void {
-    this.strategy = strategy;
+  constructor(
+    @Inject(PRICING_STRATEGY)
+    private readonly defaultStrategy: PricingStrategy,
+    @Inject('ALL_PRICING_STRATEGIES')
+    strategies: PricingStrategy[],
+  ) {
+    this.strategies = new Map(strategies.map((s) => [s.name, s]));
   }
 
-  calculatePrice(basePrice: number, quantity: number): PricingResult {
-    if (!this.strategy) {
-      const subtotal = basePrice * quantity;
-      return {
-        finalPrice: Math.round(subtotal * 100) / 100,
-        discount: 0,
-        strategy: 'No strategy applied (full price)',
-      };
-    }
+  getDefaultStrategyName(): string {
+    return this.defaultStrategy.name;
+  }
 
-    return this.strategy.calculate(basePrice, quantity);
+  getAvailableStrategies(): string[] {
+    return [...this.strategies.keys()];
+  }
+
+  calculatePrice(basePrice: number, quantity: number, strategyName?: string): PricingResult {
+    const strategy = strategyName
+      ? this.resolveStrategy(strategyName)
+      : this.defaultStrategy;
+
+    return strategy.calculate(basePrice, quantity);
+  }
+
+  private resolveStrategy(name: string): PricingStrategy {
+    const strategy = this.strategies.get(name);
+    if (!strategy) {
+      throw new BadRequestException(
+        `Unknown strategy "${name}". Available: ${this.getAvailableStrategies().join(', ')}`,
+      );
+    }
+    return strategy;
   }
 }

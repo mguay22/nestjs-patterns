@@ -1,7 +1,5 @@
-import { Injectable } from '@nestjs/common';
 import { Order } from './order';
 
-@Injectable()
 export class OrderBuilder {
   private order: Order;
 
@@ -31,8 +29,6 @@ export class OrderBuilder {
 
   build(): Order {
     this.order.calculateTotal();
-    const result = this.order;
-    this.order = new Order();
-    return result;
+    return this.order;
   }
 }

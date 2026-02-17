@@ -1,57 +1,39 @@
-import { Controller, Post, Body, BadRequestException } from '@nestjs/common';
+import { Controller, Post, Get, Body } from '@nestjs/common';
 import { PricingService } from './pricing.service';
-import { PercentageDiscountStrategy } from './percentage-discount.strategy';
-import { FlatDiscountStrategy } from './flat-discount.strategy';
-import { BogoStrategy } from './bogo.strategy';
-import { TieredPricingStrategy } from './tiered-pricing.strategy';
 
 @Controller('strategy')
 export class StrategyController {
   constructor(private readonly pricingService: PricingService) {}
 
+  @Get('pricing')
+  getInfo() {
+    return {
+      defaultStrategy: this.pricingService.getDefaultStrategyName(),
+      availableStrategies: this.pricingService.getAvailableStrategies(),
+      note: 'Default strategy is configured via PRICING_STRATEGY env var at app start.',
+    };
+  }
+
   @Post('pricing')
   calculatePrice(
     @Body()
     body: {
-      strategy: string;
+      strategy?: string;
       basePrice: number;
       quantity: number;
-      discountValue?: number;
     },
   ) {
-    switch (body.strategy) {
-      case 'percentage':
-        if (body.discountValue === undefined) {
-          throw new BadRequestException('discountValue is required for percentage strategy');
-        }
-        this.pricingService.setStrategy(new PercentageDiscountStrategy(body.discountValue));
-        break;
-      case 'flat':
-        if (body.discountValue === undefined) {
-          throw new BadRequestException('discountValue is required for flat strategy');
-        }
-        this.pricingService.setStrategy(new FlatDiscountStrategy(body.discountValue));
-        break;
-      case 'bogo':
-        this.pricingService.setStrategy(new BogoStrategy());
-        break;
-      case 'tiered':
-        this.pricingService.setStrategy(new TieredPricingStrategy());
-        break;
-      default:
-        throw new BadRequestException(
-          `Unknown strategy "${body.strategy}". Valid strategies: percentage, flat, bogo, tiered`,
-        );
-    }
-
-    const result = this.pricingService.calculatePrice(body.basePrice, body.quantity);
+    const result = this.pricingService.calculatePrice(
+      body.basePrice,
+      body.quantity,
+      body.strategy,
+    );
 
     return {
       input: {
-        strategy: body.strategy,
+        strategy: body.strategy ?? this.pricingService.getDefaultStrategyName(),
         basePrice: body.basePrice,
         quantity: body.quantity,
-        discountValue: body.discountValue,
       },
       result,
     };

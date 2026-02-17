@@ -1,6 +1,10 @@
+import { Injectable } from '@nestjs/common';
 import { PricingStrategy, PricingResult } from './pricing-strategy.interface';
 
+@Injectable()
 export class TieredPricingStrategy implements PricingStrategy {
+  readonly name = 'tiered';
+
   calculate(basePrice: number, quantity: number): PricingResult {
     let discountPercentage: number;
     let tierName: string;

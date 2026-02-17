@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { AppController } from './app.controller.js';
+import { AppService } from './app.service.js';
 
 describe('AppController', () => {
   let appController: AppController;
@@ -15,8 +15,12 @@ describe('AppController', () => {
   });
 
   describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(appController.getHello()).toBe('Hello World!');
+    it('should return pattern index', () => {
+      const result = appController.getPatternIndex();
+      expect(result.title).toBe('Gang of Four Design Patterns in NestJS');
+      expect(result.patterns.creational).toHaveLength(5);
+      expect(result.patterns.structural).toHaveLength(7);
+      expect(result.patterns.behavioral).toHaveLength(11);
     });
   });
 });

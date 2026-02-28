@@ -1,0 +1,60 @@
+---
+title: "Command"
+category: "behavioral"
+intent: "Encapsulate a request as an object, thereby letting you parameterize clients with different requests, queue or log requests, and support undoable operations."
+complexity: "medium"
+popularity: "high"
+relatedPatterns: ["memento", "strategy", "chain-of-responsibility"]
+order: 2
+---
+
+import CodeTabs from '../../../components/CodeTabs.astro';
+
+import commandInterface from '../../../code/behavioral/command/command.interface.ts?raw';
+import placeOrder from '../../../code/behavioral/command/place-order.command.ts?raw';
+import cancelOrder from '../../../code/behavioral/command/cancel-order.command.ts?raw';
+import refundOrder from '../../../code/behavioral/command/refund-order.command.ts?raw';
+import invoker from '../../../code/behavioral/command/order-command-invoker.service.ts?raw';
+
+## The Problem
+
+Order operations such as placing, cancelling, and refunding orders require different logic. Without the Command pattern, there is no way to maintain a history, undo a recent action, or queue operations for later execution.
+
+## The Solution
+
+The Command pattern wraps each operation in a self-contained command object that implements `execute()` and `undo()`. An invoker service manages execution, maintains a stack for undo support, and records a full history log.
+
+## Structure
+
+- **Command** (interface) — Declares `execute()` and `undo()` plus a `name` identifier.
+- **Concrete Commands** — `PlaceOrderCommand`, `CancelOrderCommand`, `RefundOrderCommand`.
+- **Invoker** — `OrderCommandInvokerService` manages execution and undo stack.
+- **Client** — `CommandController` maps HTTP actions to commands.
+
+## Implementation
+
+Each command tracks execution state to prevent double-execution. The invoker maintains a stack for undo operations and a full history log:
+
+<CodeTabs tabs={[
+  { filename: 'command.interface.ts', code: commandInterface },
+  { filename: 'place-order.command.ts', code: placeOrder },
+  { filename: 'cancel-order.command.ts', code: cancelOrder },
+  { filename: 'refund-order.command.ts', code: refundOrder },
+  { filename: 'order-command-invoker.service.ts', code: invoker },
+]} />
+
+## NestJS Integration
+
+The `OrderCommandInvokerService` is an `@Injectable()` singleton that persists the command history across requests. Individual command objects are created per request in the controller, keeping them stateful and isolated. The invoker is the only NestJS-managed component; commands are plain classes.
+
+## When to Use
+
+- You need to parameterize objects with operations, queue operations, or schedule their execution.
+- You want to support undo/redo functionality.
+- You need to log all operations for auditing.
+- You want to decouple the object that invokes the operation from the one that performs it.
+
+### When NOT to Use
+
+- The operations are simple and don't need history, undo, or queuing.
+- Adding command objects for trivial operations introduces unnecessary abstraction.

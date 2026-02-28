@@ -1,0 +1,62 @@
+---
+title: "Iterator"
+category: "behavioral"
+intent: "Provide a way to access the elements of an aggregate object sequentially without exposing its underlying representation."
+complexity: "medium"
+popularity: "high"
+relatedPatterns: ["composite", "factory-method", "visitor"]
+order: 4
+---
+
+import CodeTabs from '../../../components/CodeTabs.astro';
+
+import iteratorInterface from '../../../code/behavioral/iterator/iterator.interface.ts?raw';
+import priceIterator from '../../../code/behavioral/iterator/price-ascending.iterator.ts?raw';
+import categoryIterator from '../../../code/behavioral/iterator/category.iterator.ts?raw';
+import paginatedIterator from '../../../code/behavioral/iterator/paginated.iterator.ts?raw';
+import productCollection from '../../../code/behavioral/iterator/product-collection.ts?raw';
+
+## The Problem
+
+A product catalog can be browsed in many ways — sorted by price, filtered by category, or paginated. Embedding each traversal in the collection class makes it bloated and hard to maintain. Adding a new traversal strategy requires modifying the collection.
+
+## The Solution
+
+The Iterator pattern extracts each traversal strategy into its own iterator object. The product collection provides factory methods to create the appropriate iterator, and each iterator encapsulates its own traversal logic.
+
+## Structure
+
+- **Iterator** (`Iterator<T>` interface) — Declares `hasNext()`, `next()`, `reset()`.
+- **Concrete Iterators** — `PriceAscendingIterator`, `CategoryIterator`, `PaginatedIterator`.
+- **Aggregate / Collection** — `ProductCollection` with factory methods for creating iterators.
+
+## Implementation
+
+The collection holds 12 products across three categories (electronics, sports, books) with three traversal strategies:
+
+1. **PriceAscendingIterator** — Products sorted by price low to high.
+2. **CategoryIterator** — Products filtered by a specific category.
+3. **PaginatedIterator** — Products grouped into pages of configurable size.
+
+<CodeTabs tabs={[
+  { filename: 'iterator.interface.ts', code: iteratorInterface },
+  { filename: 'price-ascending.iterator.ts', code: priceIterator },
+  { filename: 'category.iterator.ts', code: categoryIterator },
+  { filename: 'paginated.iterator.ts', code: paginatedIterator },
+  { filename: 'product-collection.ts', code: productCollection },
+]} />
+
+## NestJS Integration
+
+The `ProductCollection` is created in the controller and populated with sample data. The iterators are plain classes, not NestJS providers, since they hold traversal state specific to each request. The controller selects the appropriate iterator based on query parameters.
+
+## When to Use
+
+- You need to traverse a collection in multiple ways without modifying the collection class.
+- You want to hide the collection's internal structure from clients.
+- You need uniform iteration over different types of collections.
+
+### When NOT to Use
+
+- The collection only ever needs one traversal strategy — a simple `for` loop or array method is clearer.
+- The collection is a simple array/list where built-in iterators are sufficient.

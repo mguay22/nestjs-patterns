@@ -1,0 +1,58 @@
+---
+title: "Proxy"
+category: "structural"
+intent: "Provide a surrogate or placeholder for another object to control access to it."
+complexity: "medium"
+popularity: "high"
+relatedPatterns: ["decorator", "adapter", "facade"]
+order: 7
+---
+
+import CodeTabs from '../../../components/CodeTabs.astro';
+
+import catalogInterface from '../../../code/structural/proxy/product-catalog.interface.ts?raw';
+import catalogService from '../../../code/structural/proxy/product-catalog.service.ts?raw';
+import cachingProxy from '../../../code/structural/proxy/caching-proxy.service.ts?raw';
+import accessProxy from '../../../code/structural/proxy/access-control-proxy.service.ts?raw';
+
+## The Problem
+
+An e-commerce platform has a product catalog service that simulates an expensive database lookup (500ms per call). Every request hits this slow service. Additionally, the catalog should be restricted based on user roles. Without an intermediary, caching logic and access control would need to be embedded in the catalog service itself.
+
+## The Solution
+
+The Proxy pattern introduces two proxy objects: a **Caching Proxy** that stores previously fetched results in memory, and an **Access Control Proxy** that checks the caller's role before allowing access. Both implement the same `ProductCatalog` interface, so the client interacts with them transparently. The proxies are layered: access control wraps caching, which wraps the real service.
+
+## Structure
+
+- **Subject Interface** (`ProductCatalog`) — Declares `getProduct(id)` and `listProducts()`.
+- **Real Subject** (`ProductCatalogService`) — The actual catalog service with simulated 500ms delay.
+- **Caching Proxy** (`CachingProxyService`) — Caches results in a `Map` for instant subsequent access.
+- **Access Control Proxy** (`AccessControlProxyService`) — Checks the caller's role before delegating. Throws `ForbiddenException` for unauthorized roles.
+
+## Implementation
+
+The `ProductCatalogService` holds five products with a simulated 500ms delay. The caching proxy eliminates repeated delays — the first request takes ~500ms, the second returns instantly. The access control proxy only permits `"admin"` and `"user"` roles.
+
+<CodeTabs tabs={[
+  { filename: 'product-catalog.interface.ts', code: catalogInterface },
+  { filename: 'product-catalog.service.ts', code: catalogService },
+  { filename: 'caching-proxy.service.ts', code: cachingProxy },
+  { filename: 'access-control-proxy.service.ts', code: accessProxy },
+]} />
+
+## NestJS Integration
+
+All three classes are registered as NestJS providers. The `CachingProxyService` receives the real service via constructor injection. The `AccessControlProxyService` is configured with a `useFactory` provider that injects the `CachingProxyService`, creating the proxy chain through NestJS's dependency injection. This demonstrates how NestJS's DI container can compose proxies declaratively in the module definition.
+
+## When to Use
+
+- You need to add caching (virtual proxy) to avoid expensive repeated operations.
+- You need to control access based on permissions or roles (protection proxy).
+- You want to add logging, monitoring, or lazy initialization without modifying the real object.
+
+### When NOT to Use
+
+- The real object is already fast and lightweight — a caching proxy adds memory overhead for no gain.
+- Access control is better handled by framework-level guards that apply uniformly across endpoints.
+- The proxy interface would diverge significantly from the real subject.

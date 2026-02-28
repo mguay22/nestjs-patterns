@@ -1,0 +1,60 @@
+---
+title: "Chain of Responsibility"
+category: "behavioral"
+intent: "Avoid coupling the sender of a request to its receiver by giving more than one object a chance to handle the request."
+complexity: "medium"
+popularity: "medium"
+relatedPatterns: ["decorator", "command", "composite"]
+order: 1
+---
+
+import CodeTabs from '../../../components/CodeTabs.astro';
+
+import validatorInterface from '../../../code/behavioral/chain-of-responsibility/order-validator.interface.ts?raw';
+import inventoryCheck from '../../../code/behavioral/chain-of-responsibility/inventory-check.handler.ts?raw';
+import paymentValidation from '../../../code/behavioral/chain-of-responsibility/payment-validation.handler.ts?raw';
+import fraudDetection from '../../../code/behavioral/chain-of-responsibility/fraud-detection.handler.ts?raw';
+import addressValidation from '../../../code/behavioral/chain-of-responsibility/address-validation.handler.ts?raw';
+import chainService from '../../../code/behavioral/chain-of-responsibility/validation-chain.service.ts?raw';
+
+## The Problem
+
+When processing an incoming order, you need to run multiple validation checks — inventory availability, payment method validity, fraud detection, and address verification. Hard-coding all of these checks into a single service creates a monolithic validator that is difficult to extend, reorder, or test in isolation.
+
+## The Solution
+
+The Chain of Responsibility pattern organizes validators as a linked list of handler objects. Each handler performs its own check and then delegates to the next handler in the chain. All handlers run regardless of earlier failures, returning a complete list of validation errors.
+
+## Structure
+
+- **Handler** (abstract `OrderValidator`) — Declares `validate()` and abstract `check()`, holds a reference to the next handler via `setNext()`.
+- **Concrete Handlers** — `InventoryCheckHandler`, `PaymentValidationHandler`, `FraudDetectionHandler`, `AddressValidationHandler`.
+- **Client** (`ValidationChainService`) — Assembles the chain and invokes it.
+
+## Implementation
+
+The implementation models an order validation pipeline with four sequential validators:
+
+<CodeTabs tabs={[
+  { filename: 'order-validator.interface.ts', code: validatorInterface },
+  { filename: 'inventory-check.handler.ts', code: inventoryCheck },
+  { filename: 'payment-validation.handler.ts', code: paymentValidation },
+  { filename: 'fraud-detection.handler.ts', code: fraudDetection },
+  { filename: 'address-validation.handler.ts', code: addressValidation },
+  { filename: 'validation-chain.service.ts', code: chainService },
+]} />
+
+## NestJS Integration
+
+Each handler is decorated with `@Injectable()` and registered as a provider. The `ValidationChainService` receives all handlers via constructor injection and assembles the chain in its constructor by calling `setNext()` on each handler. This leverages NestJS's DI to manage handler lifecycle while keeping the chain assembly logic centralized.
+
+## When to Use
+
+- Multiple objects may handle a request and the handler isn't known upfront.
+- You want to decouple senders from receivers.
+- The set of handlers and their order should be configurable at runtime.
+
+### When NOT to Use
+
+- There is only one handler — a direct call is simpler.
+- The chain is so long that debugging becomes difficult.

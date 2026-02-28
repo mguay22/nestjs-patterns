@@ -1,0 +1,43 @@
+---
+import type { Category } from '../data/patterns';
+
+interface Props {
+  category: Category;
+  label: string;
+  description: string;
+  count: number;
+}
+
+const { category, label, description, count } = Astro.props;
+
+const colorMap: Record<Category, { bg: string; border: string; text: string; badge: string }> = {
+  creational: { bg: 'bg-amber-50', border: 'border-amber-200', text: 'text-amber-700', badge: 'bg-amber-100 text-amber-800' },
+  structural: { bg: 'bg-blue-50', border: 'border-blue-200', text: 'text-blue-600', badge: 'bg-blue-100 text-blue-700' },
+  behavioral: { bg: 'bg-emerald-50', border: 'border-emerald-200', text: 'text-emerald-600', badge: 'bg-emerald-100 text-emerald-700' },
+};
+
+const colors = colorMap[category];
+---
+
+<a
+  href={`/patterns/${category}/`}
+  class:list={[
+    'group block rounded-xl border p-6 transition-all hover:shadow-md',
+    colors.border,
+    colors.bg,
+  ]}
+>
+  <div class="flex items-center justify-between">
+    <h3 class:list={['text-lg font-semibold', colors.text]}>{label}</h3>
+    <span class:list={['rounded-full px-2.5 py-0.5 text-xs font-medium', colors.badge]}>
+      {count} patterns
+    </span>
+  </div>
+  <p class="mt-2 text-sm text-gray-600">{description}</p>
+  <span class:list={['mt-4 inline-flex items-center text-sm font-medium transition-colors', colors.text]}>
+    Explore patterns
+    <svg class="ml-1 h-4 w-4 transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+    </svg>
+  </span>
+</a>

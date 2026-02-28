@@ -1,0 +1,85 @@
+---
+title: "Builder"
+category: "creational"
+intent: "Separate the construction of a complex object from its representation so that the same construction process can create different representations."
+complexity: "medium"
+popularity: "high"
+relatedPatterns: ["abstract-factory", "composite", "prototype"]
+order: 4
+---
+
+import CodeTabs from '../../../components/CodeTabs.astro';
+
+import order from '../../../code/creational/builder/order.ts?raw';
+import orderBuilder from '../../../code/creational/builder/order-builder.ts?raw';
+import orderDirector from '../../../code/creational/builder/order-director.ts?raw';
+
+## The Problem
+
+E-commerce orders are complex objects with many optional parts: line items, shipping information, discounts, and payment methods. Constructing such an object in one step requires a constructor with numerous parameters, many of which are optional. This leads to telescoping constructors or large configuration objects that are hard to read, easy to misconfigure, and painful to maintain.
+
+## The Solution
+
+The Builder pattern provides a fluent, step-by-step API for constructing complex objects. An `OrderBuilder` exposes methods like `addItem()`, `setShipping()`, `applyDiscount()`, and `setPaymentMethod()`, each returning `this` to allow method chaining. A `build()` method finalizes the object and returns the completed `Order`. For common configurations, an `OrderDirector` encapsulates predefined construction sequences (express orders, gift orders).
+
+## Structure
+
+- **Product** (`Order`) — The complex object being constructed. Contains `items`, `shipping`, `discount`, `paymentMethod`, and `total`.
+- **Builder** (`OrderBuilder`) — Provides methods to configure each part of the `Order` step by step. Each method returns `this` for fluent chaining.
+- **Director** (`OrderDirector`) — Defines static methods for common construction sequences like `createExpressOrder()` and `createGiftOrder()`.
+- **Client** (`BuilderController`) — Accepts order data via HTTP, optionally delegates to the Director for presets, or drives the Builder directly for custom orders.
+
+## Implementation
+
+This implementation models an **order construction system** for an e-commerce platform. Orders can be built in two ways:
+
+1. **Using presets via the Director** — Express orders use express shipping with no discount. Gift orders use gift-wrap shipping with a 5% discount.
+2. **Custom orders via the Builder directly** — The client provides all order details and the controller drives the Builder step by step.
+
+<CodeTabs tabs={[
+  { filename: 'order.ts', code: order },
+  { filename: 'order-builder.ts', code: orderBuilder },
+  { filename: 'order-director.ts', code: orderDirector },
+]} />
+
+### Example Output
+
+An express order preset:
+
+```json
+{
+  "items": [
+    {"name": "Mechanical Keyboard", "price": 129.99, "quantity": 1},
+    {"name": "Mouse Pad", "price": 19.99, "quantity": 2}
+  ],
+  "shipping": {"method": "express", "address": "Default Express Address"},
+  "discount": 0,
+  "paymentMethod": "credit-card",
+  "total": 169.97
+}
+```
+
+## NestJS Integration
+
+In NestJS, the `OrderBuilder` is decorated with `@Injectable()` and registered as a provider. Because NestJS providers default to singleton scope, the same builder instance is shared across requests. The builder handles this by resetting its internal state in the `build()` method.
+
+Key integration points:
+
+- **Injectable builder** — The `OrderBuilder` is managed by the NestJS IoC container, so it can easily have dependencies injected (e.g., a pricing service).
+- **Controller as client** — The controller interprets the incoming DTO and decides whether to use the Director or drive the Builder manually.
+- **Director as pure logic** — `OrderDirector` has static methods and no dependencies, so it does not need to be injectable.
+
+For request-scoped builders, you could switch to `@Injectable({ scope: Scope.REQUEST })` to get a fresh builder per request.
+
+## When to Use
+
+- You need to create objects with many optional or configurable parts and want to avoid constructors with long parameter lists.
+- The same construction process should be able to create different representations.
+- You have common construction sequences that should be encapsulated and reused (via a Director).
+- You want to make the construction code self-documenting through method names like `addItem()`, `setShipping()`, and `applyDiscount()`.
+
+### When NOT to Use
+
+- When the object is simple and has few fields. A plain constructor or object literal is clearer.
+- When immutability is paramount and you want all fields set at once via the constructor.
+- When there is only one possible representation and no predefined construction sequences.

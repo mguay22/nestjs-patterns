@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="About — NestJS Design Patterns"
+  description="About this project: all 23 Gang of Four design patterns implemented with NestJS and TypeScript."
+>
+  <section class="border-b border-gray-200 bg-gradient-to-b from-gray-50 to-white">
+    <div class="mx-auto max-w-4xl px-4 py-12 sm:px-6">
+      <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">About This Project</h1>
+      <p class="mt-3 text-lg text-gray-600">
+        A comprehensive guide to the Gang of Four design patterns, implemented with real-world examples using NestJS.
+      </p>
+    </div>
+  </section>
+
+  <div class="mx-auto max-w-4xl px-4 py-12 sm:px-6">
+    <article class="prose prose-gray max-w-none">
+      <h2>What is this?</h2>
+      <p>
+        This site covers all <strong>23 Gang of Four (GoF) design patterns</strong> — the foundational
+        patterns catalogued by Erich Gamma, Richard Helm, Ralph Johnson, and John Vlissides in their
+        seminal 1994 book <em>Design Patterns: Elements of Reusable Object-Oriented Software</em>.
+      </p>
+      <p>
+        Every pattern is implemented in <strong>TypeScript</strong> using <strong>NestJS</strong> conventions:
+        dependency injection, modules, controllers, and decorators. Each example uses a real-world
+        <strong> e-commerce domain</strong> — products, orders, payments, shipping — so the patterns feel
+        practical rather than academic.
+      </p>
+
+      <h2>How the patterns are organized</h2>
+      <p>The 23 patterns are divided into three categories:</p>
+      <ul>
+        <li>
+          <strong>Creational (5 patterns)</strong> — Deal with object creation mechanisms. Includes Singleton,
+          Factory Method, Abstract Factory, Builder, and Prototype.
+        </li>
+        <li>
+          <strong>Structural (7 patterns)</strong> — Concern class and object composition. Includes Adapter,
+          Bridge, Composite, Decorator, Facade, Flyweight, and Proxy.
+        </li>
+        <li>
+          <strong>Behavioral (11 patterns)</strong> — Focus on communication between objects. Includes Chain of
+          Responsibility, Command, Interpreter, Iterator, Mediator, Memento, Observer, State, Strategy,
+          Template Method, and Visitor.
+        </li>
+      </ul>
+
+      <h2>What each pattern page includes</h2>
+      <ul>
+        <li><strong>The Problem</strong> — A concrete scenario where the pattern is needed.</li>
+        <li><strong>The Solution</strong> — How the pattern addresses the problem.</li>
+        <li><strong>Structure</strong> — The roles and their responsibilities.</li>
+        <li><strong>Implementation</strong> — Full TypeScript source code with syntax highlighting.</li>
+        <li><strong>NestJS Integration</strong> — How the pattern maps to NestJS's provider system, DI container, and module architecture.</li>
+        <li><strong>When to Use / When NOT to Use</strong> — Practical guidance on applicability.</li>
+        <li><strong>Related Patterns</strong> — Cross-references to complementary or alternative patterns.</li>
+      </ul>
+
+      <h2>Technology</h2>
+      <p>
+        This site is built with <a href="https://astro.build">Astro</a>, styled with
+        <a href="https://tailwindcss.com">Tailwind CSS</a>, and uses MDX for content pages.
+        All code examples are real TypeScript files imported at build time with Shiki syntax highlighting.
+      </p>
+    </article>
+  </div>
+</BaseLayout>

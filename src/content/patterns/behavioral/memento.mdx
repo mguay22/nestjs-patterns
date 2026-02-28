@@ -1,0 +1,54 @@
+---
+title: "Memento"
+category: "behavioral"
+intent: "Capture and externalize an object's internal state so that the object can be restored to this state later."
+complexity: "medium"
+popularity: "medium"
+relatedPatterns: ["command", "iterator", "prototype"]
+order: 6
+---
+
+import CodeTabs from '../../../components/CodeTabs.astro';
+
+import cartMemento from '../../../code/behavioral/memento/cart-memento.ts?raw';
+import shoppingCart from '../../../code/behavioral/memento/shopping-cart.ts?raw';
+import cartHistory from '../../../code/behavioral/memento/cart-history.service.ts?raw';
+
+## The Problem
+
+A shopping cart changes frequently as users add, remove, and modify items. Users expect undo capability. Storing cart state externally would break encapsulation — external code would need to know about the cart's internal structure to save and restore it.
+
+## The Solution
+
+The shopping cart (originator) creates opaque snapshot objects (mementos) of its own state. A caretaker service stores these snapshots in undo and redo stacks. The cart can restore itself from any memento without exposing its internals.
+
+## Structure
+
+- **Originator** (`ShoppingCart`) — Creates mementos via `save()` and restores via `restore()`.
+- **Memento** (`CartMemento`) — Immutable snapshot with timestamp.
+- **Caretaker** (`CartHistoryService`) — Manages undo/redo stacks.
+
+## Implementation
+
+The shopping cart supports adding items (with quantity merging for duplicates), undo, redo, and full history viewing. Each modification saves a memento before the change.
+
+<CodeTabs tabs={[
+  { filename: 'cart-memento.ts', code: cartMemento },
+  { filename: 'shopping-cart.ts', code: shoppingCart },
+  { filename: 'cart-history.service.ts', code: cartHistory },
+]} />
+
+## NestJS Integration
+
+The `CartHistoryService` is an `@Injectable()` singleton that persists undo/redo stacks across requests. The `ShoppingCart` is also a singleton provider, simulating a single-user cart for demonstration. In production, you would use request-scoped or session-scoped providers.
+
+## When to Use
+
+- You need to implement undo/redo functionality.
+- You want to save and restore object state without violating encapsulation.
+- You need snapshots for transaction-like operations (commit/rollback).
+
+### When NOT to Use
+
+- The object's state is trivially simple — just store a copy directly.
+- Creating mementos is expensive due to large state — consider storing deltas instead.

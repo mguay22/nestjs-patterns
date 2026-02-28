@@ -1,0 +1,60 @@
+---
+title: "Template Method"
+category: "behavioral"
+intent: "Define the skeleton of an algorithm in an operation, deferring some steps to subclasses."
+complexity: "medium"
+popularity: "high"
+relatedPatterns: ["strategy", "factory-method"]
+order: 10
+---
+
+import CodeTabs from '../../../components/CodeTabs.astro';
+
+import reportGenerator from '../../../code/behavioral/template-method/report-generator.ts?raw';
+import salesReport from '../../../code/behavioral/template-method/sales-report.generator.ts?raw';
+import inventoryReport from '../../../code/behavioral/template-method/inventory-report.generator.ts?raw';
+import customerReport from '../../../code/behavioral/template-method/customer-report.generator.ts?raw';
+
+## The Problem
+
+Different report types (sales, inventory, customer) follow the same overall process — gather data, process it, format a report, generate a summary — but differ in the specifics at each step. Duplicating the algorithm structure across each report type leads to code repetition and inconsistency.
+
+## The Solution
+
+The Template Method pattern defines the algorithm skeleton in `ReportGenerator`'s `generate()` method. Subclasses override `gatherData()` and `formatReport()` to provide type-specific behavior while the overall sequence remains fixed. A default `processData()` implementation is optionally overridable.
+
+## Structure
+
+- **Abstract Class** (`ReportGenerator`) — Defines the `generate()` template method.
+- **Concrete Classes** — `SalesReportGenerator`, `InventoryReportGenerator`, `CustomerReportGenerator`.
+- **Client** — `TemplateMethodController` selects the generator by type.
+
+## Implementation
+
+Three report generators:
+
+1. **SalesReportGenerator** — Revenue, average order value, breakdown by region.
+2. **InventoryReportGenerator** — Low-stock items, total inventory value, stock by category.
+3. **CustomerReportGenerator** — Revenue, average spend, tier distribution, top 3 customers.
+
+<CodeTabs tabs={[
+  { filename: 'report-generator.ts', code: reportGenerator },
+  { filename: 'sales-report.generator.ts', code: salesReport },
+  { filename: 'inventory-report.generator.ts', code: inventoryReport },
+  { filename: 'customer-report.generator.ts', code: customerReport },
+]} />
+
+## NestJS Integration
+
+Each concrete generator is decorated with `@Injectable()` and registered as a provider. The controller injects all generators and selects the correct one based on the route parameter. The abstract `ReportGenerator` base class is not injectable — it serves as a contract for subclasses. This maps well to NestJS's provider system where injectable services can use inheritance.
+
+## When to Use
+
+- Several classes have similar algorithms that differ in only a few steps.
+- You want to enforce a fixed algorithm structure while allowing customization of specific steps.
+- You want to consolidate shared behavior in a base class and let subclasses fill in the gaps.
+
+### When NOT to Use
+
+- Each implementation has a completely different algorithm — forcing them into a template creates awkward, empty overrides.
+- The number of customizable steps is so large that subclasses override nearly every method, defeating the purpose.

@@ -1,0 +1,89 @@
+---
+title: "Prototype"
+category: "creational"
+intent: "Create objects by cloning a prototype rather than constructing from scratch."
+complexity: "medium"
+popularity: "medium"
+relatedPatterns: ["abstract-factory", "factory-method", "singleton"]
+order: 5
+---
+
+import CodeTabs from '../../../components/CodeTabs.astro';
+
+import prototypeInterface from '../../../code/creational/prototype/product-prototype.interface.ts?raw';
+import productTemplate from '../../../code/creational/prototype/product-template.ts?raw';
+import registryService from '../../../code/creational/prototype/template-registry.service.ts?raw';
+
+## The Problem
+
+In an e-commerce catalog, many products are variations of a base template. A "Basic T-Shirt" comes in different colors and sizes, but the core attributes (material, care instructions, category, base price) remain the same. Creating each variation from scratch is tedious and error-prone — you might forget a field or introduce inconsistencies. Furthermore, if the base template changes, you need to update every variation individually.
+
+## The Solution
+
+The Prototype pattern allows you to create new objects by cloning an existing prototype rather than constructing from scratch. A `ProductTemplate` class implements a `clone()` method that produces a deep copy of itself. A `TemplateRegistryService` holds a collection of pre-configured prototypes. When a new product variation is needed, the client retrieves the appropriate template, clones it, and customizes the clone. The original prototype remains untouched.
+
+## Structure
+
+- **Prototype** (`Prototype<T>` interface) — Declares the `clone()` method that all prototypable objects must implement.
+- **ConcretePrototype** (`ProductTemplate`) — Implements `clone()` using `structuredClone()` for deep copying of nested attributes.
+- **Registry** (`TemplateRegistryService`) — Stores a map of named prototypes. Pre-loaded with three default templates.
+- **Client** (`PrototypeController`) — Retrieves a template by ID, clones it, applies optional customizations, and returns the new product.
+
+## Implementation
+
+The registry comes pre-loaded with three product templates:
+
+1. **basic-tshirt** — A $19.99 cotton t-shirt in the "apparel" category.
+2. **premium-headphones** — $299.99 wireless over-ear headphones in "electronics".
+3. **ebook-template** — A $9.99 digital book in "digital" format.
+
+<CodeTabs tabs={[
+  { filename: 'product-prototype.interface.ts', code: prototypeInterface },
+  { filename: 'product-template.ts', code: productTemplate },
+  { filename: 'template-registry.service.ts', code: registryService },
+]} />
+
+### Example Output
+
+Cloning a t-shirt with customizations:
+
+```json
+{
+  "clonedFrom": "basic-tshirt",
+  "product": {
+    "name": "Red T-Shirt (Sale)",
+    "price": 14.99,
+    "category": "apparel",
+    "attributes": {
+      "material": "cotton",
+      "sizes": ["S", "M", "L", "XL"],
+      "colors": ["red"],
+      "care": "machine wash cold",
+      "onSale": true
+    }
+  }
+}
+```
+
+## NestJS Integration
+
+In NestJS, the `TemplateRegistryService` is decorated with `@Injectable()` and registered as a singleton provider. This is ideal for a prototype registry — all requests share the same template collection, and templates added at runtime are immediately available.
+
+Key integration points:
+
+- **Singleton registry** — The default NestJS singleton scope ensures the cache persists across requests.
+- **Deep cloning with `structuredClone()`** — Node.js's built-in `structuredClone()` deep-copies nested attributes, ensuring independence between prototype and clone.
+- **Runtime extensibility** — Admin endpoints can add new templates at runtime, and they become immediately available.
+
+## When to Use
+
+- You need to create many variations of an object that share most of their state.
+- Object creation is expensive or complex, and cloning is significantly cheaper.
+- You want to avoid building a parallel hierarchy of factories — one registry of prototypes replaces many factory classes.
+- The set of prototypes can be defined at runtime and extended dynamically.
+
+### When NOT to Use
+
+- When objects have circular references or complex internal dependencies that make deep copying unreliable.
+- When each new object is fundamentally different from any existing prototype.
+- When the object graph is trivially simple — the overhead of `clone()` and a registry outweighs the benefit.

@@ -1,0 +1,29 @@
+---
+import { patterns } from '../data/patterns';
+
+interface Props {
+  slugs: string[];
+}
+
+const { slugs } = Astro.props;
+const related = slugs.map(slug => patterns.find(p => p.slug === slug)).filter(Boolean);
+---
+
+{related.length > 0 && (
+  <div class="mt-8 rounded-lg border border-gray-200 bg-gray-50 p-6">
+    <h2 class="text-lg font-semibold text-gray-900" id="related-patterns">Related Patterns</h2>
+    <div class="mt-4 grid gap-3 sm:grid-cols-2">
+      {related.map((p) => (
+        <a
+          href={`/patterns/${p!.category}/${p!.slug}/`}
+          class="flex items-start gap-3 rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border-gray-300 hover:shadow-sm"
+        >
+          <div>
+            <p class="font-medium text-gray-900">{p!.title}</p>
+            <p class="mt-0.5 text-sm text-gray-500 line-clamp-2">{p!.intent}</p>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+)}

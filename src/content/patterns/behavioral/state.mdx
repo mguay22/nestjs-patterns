@@ -1,0 +1,71 @@
+---
+title: "State"
+category: "behavioral"
+intent: "Allow an object to alter its behavior when its internal state changes."
+complexity: "medium"
+popularity: "high"
+relatedPatterns: ["strategy", "command"]
+order: 8
+---
+
+import CodeTabs from '../../../components/CodeTabs.astro';
+
+import stateInterface from '../../../code/behavioral/state/order-state.interface.ts?raw';
+import orderContext from '../../../code/behavioral/state/order-context.ts?raw';
+import pendingState from '../../../code/behavioral/state/pending.state.ts?raw';
+import confirmedState from '../../../code/behavioral/state/confirmed.state.ts?raw';
+import shippedState from '../../../code/behavioral/state/shipped.state.ts?raw';
+import deliveredState from '../../../code/behavioral/state/delivered.state.ts?raw';
+import cancelledState from '../../../code/behavioral/state/cancelled.state.ts?raw';
+import stateService from '../../../code/behavioral/state/state.service.ts?raw';
+
+## The Problem
+
+An order goes through multiple states (pending, confirmed, shipped, delivered, cancelled) with conditional logic in every method. Each operation must check the current state and behave differently: confirming a pending order succeeds, but confirming a shipped order fails. Scattering these conditionals throughout the code makes it fragile and hard to extend.
+
+## The Solution
+
+The State pattern delegates state-specific behavior to individual state objects. Each state knows which transitions are valid and throws errors for invalid ones. The context (`OrderContext`) holds the current state and delegates operations to it.
+
+## Structure
+
+- **State** (interface `OrderState`) — Declares `confirm()`, `ship()`, `deliver()`, `cancel()`.
+- **Context** (`OrderContext`) — Holds the current state and an audit trail of transitions.
+- **Concrete States** — `PendingState`, `ConfirmedState`, `ShippedState`, `DeliveredState`, `CancelledState`.
+- **Service** (`StateService`) — Manages order contexts.
+
+## Implementation
+
+Valid transitions:
+
+```
+Pending  --confirm-->  Confirmed  --ship-->  Shipped  --deliver-->  Delivered
+Pending  --cancel-->   Cancelled
+Confirmed --cancel-->  Cancelled
+```
+
+<CodeTabs tabs={[
+  { filename: 'order-state.interface.ts', code: stateInterface },
+  { filename: 'order-context.ts', code: orderContext },
+  { filename: 'pending.state.ts', code: pendingState },
+  { filename: 'confirmed.state.ts', code: confirmedState },
+  { filename: 'shipped.state.ts', code: shippedState },
+  { filename: 'delivered.state.ts', code: deliveredState },
+  { filename: 'cancelled.state.ts', code: cancelledState },
+  { filename: 'state.service.ts', code: stateService },
+]} />
+
+## NestJS Integration
+
+The `StateService` is an `@Injectable()` singleton that manages a `Map` of order contexts. Individual state objects are plain classes created on demand — they are lightweight and stateless, so they don't need to be NestJS providers. The context and state objects form a self-contained state machine that the service exposes via simple methods.
+
+## When to Use
+
+- An object's behavior depends on its current state and must change at runtime.
+- Operations have massive conditional logic based on the object's state.
+- You want to make state transitions explicit and enforce valid transition rules.
+
+### When NOT to Use
+
+- The object has only two or three states with simple transitions — a boolean or enum with a switch statement is clearer.
+- State transitions are rare and the overhead of state objects is not justified.

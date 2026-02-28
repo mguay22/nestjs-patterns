@@ -1,0 +1,63 @@
+---
+title: "Composite"
+category: "structural"
+intent: "Compose objects into tree structures to represent part-whole hierarchies."
+complexity: "medium"
+popularity: "medium"
+relatedPatterns: ["decorator", "iterator", "flyweight"]
+order: 3
+---
+
+import CodeTabs from '../../../components/CodeTabs.astro';
+
+import componentInterface from '../../../code/structural/composite/catalog-component.interface.ts?raw';
+import productItem from '../../../code/structural/composite/product-item.ts?raw';
+import category from '../../../code/structural/composite/category.ts?raw';
+import catalogService from '../../../code/structural/composite/catalog.service.ts?raw';
+
+## The Problem
+
+An e-commerce platform has a product catalog organized into categories. Categories can contain individual products or nested subcategories. Without the Composite pattern, client code must distinguish between products and categories, using different logic to calculate totals, count items, or display the structure. This leads to complex conditional logic.
+
+## The Solution
+
+The Composite pattern defines a common `CatalogComponent` interface that both individual products (leaves) and categories (composites) implement. Both respond to the same operations — `getPrice()`, `getCount()`, `display()` — but composites delegate to their children recursively.
+
+## Structure
+
+- **Component Interface** (`CatalogComponent`) — Declares `getName()`, `getPrice()`, `getCount()`, and `display()` methods.
+- **Leaf** (`ProductItem`) — Represents an individual product. `getPrice()` returns its own price, `getCount()` returns 1.
+- **Composite** (`Category`) — Holds a collection of children. `getPrice()` and `getCount()` sum all children's values recursively.
+- **Client** (`CatalogService`, `CompositeController`) — Builds the tree and operates on the root node uniformly.
+
+## Implementation
+
+The `CatalogService` builds a tree representing a store catalog:
+
+- **Electronics** — Phones (iPhone, Samsung, Pixel) + Laptops (MacBook, Dell, ThinkPad)
+- **Clothing** — Men (T-Shirt, Jeans) + Women (Dress, Jacket)
+
+Calling `getPrice()` on the root returns the sum of all 10 products. Calling `display()` returns a formatted, indented text representation.
+
+<CodeTabs tabs={[
+  { filename: 'catalog-component.interface.ts', code: componentInterface },
+  { filename: 'product-item.ts', code: productItem },
+  { filename: 'category.ts', code: category },
+  { filename: 'catalog.service.ts', code: catalogService },
+]} />
+
+## NestJS Integration
+
+The `CatalogService` is registered as an `@Injectable()` NestJS provider responsible for constructing the composite tree. `ProductItem` and `Category` are plain TypeScript classes (not NestJS providers) because they represent domain objects instantiated dynamically. The module exports `CatalogService` so other modules can reuse the catalog-building logic.
+
+## When to Use
+
+- You need to represent a tree structure where clients should treat individual items and groups uniformly.
+- You want operations like totaling prices or counting elements to work recursively across the entire tree.
+- You are building hierarchical data structures such as catalogs, menus, file systems, or organizational charts.
+
+### When NOT to Use
+
+- Your data is flat (not hierarchical) — a simple list would suffice.
+- The operations on leaves and composites are fundamentally different, making a uniform interface misleading.
+- You need strict type safety to distinguish between leaves and composites at compile time.

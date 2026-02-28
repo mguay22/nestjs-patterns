@@ -8,6 +8,7 @@ relatedPatterns: ["decorator", "command", "composite"]
 order: 1
 ---
 
+import CodeBlock from '../../../components/CodeBlock.astro';
 import CodeTabs from '../../../components/CodeTabs.astro';
 
 import validatorInterface from '../../../code/behavioral/chain-of-responsibility/order-validator.interface.ts?raw';
@@ -16,6 +17,9 @@ import paymentValidation from '../../../code/behavioral/chain-of-responsibility/
 import fraudDetection from '../../../code/behavioral/chain-of-responsibility/fraud-detection.handler.ts?raw';
 import addressValidation from '../../../code/behavioral/chain-of-responsibility/address-validation.handler.ts?raw';
 import chainService from '../../../code/behavioral/chain-of-responsibility/validation-chain.service.ts?raw';
+import integrationController from '../../../code/behavioral/chain-of-responsibility/integration.controller.ts?raw';
+import integrationService from '../../../code/behavioral/chain-of-responsibility/integration.service.ts?raw';
+import integrationModule from '../../../code/behavioral/chain-of-responsibility/integration.module.ts?raw';
 
 ## The Problem
 
@@ -47,6 +51,12 @@ The implementation models an order validation pipeline with four sequential vali
 ## NestJS Integration
 
 Each handler is decorated with `@Injectable()` and registered as a provider. The `ValidationChainService` receives all handlers via constructor injection and assembles the chain in its constructor by calling `setNext()` on each handler. This leverages NestJS's DI to manage handler lifecycle while keeping the chain assembly logic centralized.
+
+<CodeTabs tabs={[
+  { filename: 'chain-of-responsibility.controller.ts', code: integrationController },
+  { filename: 'chain-of-responsibility.service.ts', code: integrationService },
+  { filename: 'chain-of-responsibility.module.ts', code: integrationModule },
+]} />
 
 ## When to Use
 

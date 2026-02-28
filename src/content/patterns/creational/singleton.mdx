@@ -9,8 +9,12 @@ order: 1
 ---
 
 import CodeBlock from '../../../components/CodeBlock.astro';
+import CodeTabs from '../../../components/CodeTabs.astro';
 
 import configService from '../../../code/creational/singleton/configuration.service.ts?raw';
+import integrationController from '../../../code/creational/singleton/integration.controller.ts?raw';
+import integrationService from '../../../code/creational/singleton/integration.service.ts?raw';
+import integrationModule from '../../../code/creational/singleton/integration.module.ts?raw';
 
 ## The Problem
 
@@ -60,6 +64,12 @@ This means the classic Singleton pattern is built into the framework. You do not
 - `Scope.TRANSIENT` — a new instance per injection point.
 
 These are set via `@Injectable({ scope: Scope.REQUEST })`.
+
+<CodeTabs tabs={[
+  { filename: 'singleton.controller.ts', code: integrationController },
+  { filename: 'singleton.service.ts', code: integrationService },
+  { filename: 'singleton.module.ts', code: integrationModule },
+]} />
 
 ## When to Use
 

@@ -8,6 +8,7 @@ relatedPatterns: ["bridge", "facade", "decorator"]
 order: 1
 ---
 
+import CodeBlock from '../../../components/CodeBlock.astro';
 import CodeTabs from '../../../components/CodeTabs.astro';
 
 import gatewayInterface from '../../../code/structural/adapter/payment-gateway.interface.ts?raw';
@@ -15,6 +16,9 @@ import stripeApi from '../../../code/structural/adapter/stripe-api.ts?raw';
 import paypalApi from '../../../code/structural/adapter/paypal-api.ts?raw';
 import stripeAdapter from '../../../code/structural/adapter/stripe.adapter.ts?raw';
 import paypalAdapter from '../../../code/structural/adapter/paypal.adapter.ts?raw';
+import integrationController from '../../../code/structural/adapter/integration.controller.ts?raw';
+import integrationService from '../../../code/structural/adapter/integration.service.ts?raw';
+import integrationModule from '../../../code/structural/adapter/integration.module.ts?raw';
 
 ## The Problem
 
@@ -48,6 +52,12 @@ The `StripeAdapter` converts dollars to cents before calling `StripeApi.createCh
 ## NestJS Integration
 
 Each adaptee and each adapter is registered as a NestJS `@Injectable()` provider. The adapters receive their adaptees via constructor injection, which NestJS resolves automatically. The module exports the adapters so other modules can depend on the `PaymentGateway` interface without knowing about the underlying APIs.
+
+<CodeTabs tabs={[
+  { filename: 'adapter.controller.ts', code: integrationController },
+  { filename: 'adapter.service.ts', code: integrationService },
+  { filename: 'adapter.module.ts', code: integrationModule },
+]} />
 
 ## When to Use
 

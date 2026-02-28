@@ -8,12 +8,16 @@ relatedPatterns: ["decorator", "iterator", "flyweight"]
 order: 3
 ---
 
+import CodeBlock from '../../../components/CodeBlock.astro';
 import CodeTabs from '../../../components/CodeTabs.astro';
 
 import componentInterface from '../../../code/structural/composite/catalog-component.interface.ts?raw';
 import productItem from '../../../code/structural/composite/product-item.ts?raw';
 import category from '../../../code/structural/composite/category.ts?raw';
 import catalogService from '../../../code/structural/composite/catalog.service.ts?raw';
+import integrationController from '../../../code/structural/composite/integration.controller.ts?raw';
+import integrationService from '../../../code/structural/composite/integration.service.ts?raw';
+import integrationModule from '../../../code/structural/composite/integration.module.ts?raw';
 
 ## The Problem
 
@@ -49,6 +53,12 @@ Calling `getPrice()` on the root returns the sum of all 10 products. Calling `di
 ## NestJS Integration
 
 The `CatalogService` is registered as an `@Injectable()` NestJS provider responsible for constructing the composite tree. `ProductItem` and `Category` are plain TypeScript classes (not NestJS providers) because they represent domain objects instantiated dynamically. The module exports `CatalogService` so other modules can reuse the catalog-building logic.
+
+<CodeTabs tabs={[
+  { filename: 'composite.controller.ts', code: integrationController },
+  { filename: 'composite.service.ts', code: integrationService },
+  { filename: 'composite.module.ts', code: integrationModule },
+]} />
 
 ## When to Use
 

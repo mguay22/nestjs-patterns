@@ -8,11 +8,15 @@ relatedPatterns: ["abstract-factory", "factory-method", "singleton"]
 order: 5
 ---
 
+import CodeBlock from '../../../components/CodeBlock.astro';
 import CodeTabs from '../../../components/CodeTabs.astro';
 
 import prototypeInterface from '../../../code/creational/prototype/product-prototype.interface.ts?raw';
 import productTemplate from '../../../code/creational/prototype/product-template.ts?raw';
 import registryService from '../../../code/creational/prototype/template-registry.service.ts?raw';
+import integrationController from '../../../code/creational/prototype/integration.controller.ts?raw';
+import integrationService from '../../../code/creational/prototype/integration.service.ts?raw';
+import integrationModule from '../../../code/creational/prototype/integration.module.ts?raw';
 
 ## The Problem
 
@@ -74,6 +78,12 @@ Key integration points:
 - **Singleton registry** — The default NestJS singleton scope ensures the cache persists across requests.
 - **Deep cloning with `structuredClone()`** — Node.js's built-in `structuredClone()` deep-copies nested attributes, ensuring independence between prototype and clone.
 - **Runtime extensibility** — Admin endpoints can add new templates at runtime, and they become immediately available.
+
+<CodeTabs tabs={[
+  { filename: 'prototype.controller.ts', code: integrationController },
+  { filename: 'prototype.service.ts', code: integrationService },
+  { filename: 'prototype.module.ts', code: integrationModule },
+]} />
 
 ## When to Use
 

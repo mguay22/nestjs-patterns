@@ -16,6 +16,9 @@ import productCreator from '../../../code/creational/factory-method/product-crea
 import physicalCreator from '../../../code/creational/factory-method/physical-product.creator.ts?raw';
 import digitalCreator from '../../../code/creational/factory-method/digital-product.creator.ts?raw';
 import subscriptionCreator from '../../../code/creational/factory-method/subscription-product.creator.ts?raw';
+import integrationController from '../../../code/creational/factory-method/integration.controller.ts?raw';
+import integrationService from '../../../code/creational/factory-method/integration.service.ts?raw';
+import integrationModule from '../../../code/creational/factory-method/integration.module.ts?raw';
 
 ## The Problem
 
@@ -83,6 +86,12 @@ In NestJS, the Factory Method pattern maps naturally to the provider system:
 - NestJS's built-in `useFactory` provider syntax is a related but distinct concept: it lets you define a factory function at the module level to create providers with custom logic. The Factory Method pattern goes a step further by using an inheritance hierarchy of creators.
 
 You could also leverage NestJS custom providers with `useClass` to swap concrete creators via configuration, making the pattern even more flexible in a modular architecture.
+
+<CodeTabs tabs={[
+  { filename: 'factory-method.controller.ts', code: integrationController },
+  { filename: 'factory-method.service.ts', code: integrationService },
+  { filename: 'factory-method.module.ts', code: integrationModule },
+]} />
 
 ## When to Use
 

@@ -8,11 +8,15 @@ relatedPatterns: ["composite", "singleton", "factory-method"]
 order: 6
 ---
 
+import CodeBlock from '../../../components/CodeBlock.astro';
 import CodeTabs from '../../../components/CodeTabs.astro';
 
 import productType from '../../../code/structural/flyweight/product-type.ts?raw';
 import productVariant from '../../../code/structural/flyweight/product-variant.ts?raw';
 import factoryService from '../../../code/structural/flyweight/product-type-factory.service.ts?raw';
+import integrationController from '../../../code/structural/flyweight/integration.controller.ts?raw';
+import integrationService from '../../../code/structural/flyweight/integration.service.ts?raw';
+import integrationModule from '../../../code/structural/flyweight/integration.module.ts?raw';
 
 ## The Problem
 
@@ -47,6 +51,12 @@ In total, 37 variants share only 3 `ProductType` objects (~6.6KB saved).
 ## NestJS Integration
 
 The `ProductTypeFactoryService` is a singleton NestJS provider by default, ensuring the cache persists across requests. `ProductType` and `ProductVariant` are plain domain objects, not NestJS providers, because they represent data rather than services. The module exports the factory service so other modules can share product types from the same cache.
+
+<CodeTabs tabs={[
+  { filename: 'flyweight.controller.ts', code: integrationController },
+  { filename: 'flyweight.service.ts', code: integrationService },
+  { filename: 'flyweight.module.ts', code: integrationModule },
+]} />
 
 ## When to Use
 

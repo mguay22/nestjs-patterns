@@ -8,6 +8,7 @@ relatedPatterns: ["memento", "strategy", "chain-of-responsibility"]
 order: 2
 ---
 
+import CodeBlock from '../../../components/CodeBlock.astro';
 import CodeTabs from '../../../components/CodeTabs.astro';
 
 import commandInterface from '../../../code/behavioral/command/command.interface.ts?raw';
@@ -15,6 +16,9 @@ import placeOrder from '../../../code/behavioral/command/place-order.command.ts?
 import cancelOrder from '../../../code/behavioral/command/cancel-order.command.ts?raw';
 import refundOrder from '../../../code/behavioral/command/refund-order.command.ts?raw';
 import invoker from '../../../code/behavioral/command/order-command-invoker.service.ts?raw';
+import integrationController from '../../../code/behavioral/command/integration.controller.ts?raw';
+import integrationService from '../../../code/behavioral/command/integration.service.ts?raw';
+import integrationModule from '../../../code/behavioral/command/integration.module.ts?raw';
 
 ## The Problem
 
@@ -46,6 +50,12 @@ Each command tracks execution state to prevent double-execution. The invoker mai
 ## NestJS Integration
 
 The `OrderCommandInvokerService` is an `@Injectable()` singleton that persists the command history across requests. Individual command objects are created per request in the controller, keeping them stateful and isolated. The invoker is the only NestJS-managed component; commands are plain classes.
+
+<CodeTabs tabs={[
+  { filename: 'command.controller.ts', code: integrationController },
+  { filename: 'command.service.ts', code: integrationService },
+  { filename: 'command.module.ts', code: integrationModule },
+]} />
 
 ## When to Use
 

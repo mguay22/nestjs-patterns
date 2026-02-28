@@ -8,11 +8,15 @@ relatedPatterns: ["abstract-factory", "composite", "prototype"]
 order: 4
 ---
 
+import CodeBlock from '../../../components/CodeBlock.astro';
 import CodeTabs from '../../../components/CodeTabs.astro';
 
 import order from '../../../code/creational/builder/order.ts?raw';
 import orderBuilder from '../../../code/creational/builder/order-builder.ts?raw';
 import orderDirector from '../../../code/creational/builder/order-director.ts?raw';
+import integrationController from '../../../code/creational/builder/integration.controller.ts?raw';
+import integrationService from '../../../code/creational/builder/integration.service.ts?raw';
+import integrationModule from '../../../code/creational/builder/integration.module.ts?raw';
 
 ## The Problem
 
@@ -70,6 +74,12 @@ Key integration points:
 - **Director as pure logic** — `OrderDirector` has static methods and no dependencies, so it does not need to be injectable.
 
 For request-scoped builders, you could switch to `@Injectable({ scope: Scope.REQUEST })` to get a fresh builder per request.
+
+<CodeTabs tabs={[
+  { filename: 'builder.controller.ts', code: integrationController },
+  { filename: 'builder.service.ts', code: integrationService },
+  { filename: 'builder.module.ts', code: integrationModule },
+]} />
 
 ## When to Use
 

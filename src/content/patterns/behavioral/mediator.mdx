@@ -8,6 +8,7 @@ relatedPatterns: ["observer", "facade", "command"]
 order: 5
 ---
 
+import CodeBlock from '../../../components/CodeBlock.astro';
 import CodeTabs from '../../../components/CodeTabs.astro';
 
 import mediatorInterface from '../../../code/behavioral/mediator/mediator.interface.ts?raw';
@@ -17,6 +18,9 @@ import payment from '../../../code/behavioral/mediator/payment.colleague.ts?raw'
 import shipping from '../../../code/behavioral/mediator/shipping.colleague.ts?raw';
 import notification from '../../../code/behavioral/mediator/notification.colleague.ts?raw';
 import orderMediator from '../../../code/behavioral/mediator/order-mediator.service.ts?raw';
+import integrationController from '../../../code/behavioral/mediator/integration.controller.ts?raw';
+import integrationService from '../../../code/behavioral/mediator/integration.service.ts?raw';
+import integrationModule from '../../../code/behavioral/mediator/integration.module.ts?raw';
 
 ## The Problem
 
@@ -50,6 +54,12 @@ The mediator coordinates a multi-step order placement workflow: Inventory reserv
 ## NestJS Integration
 
 The `OrderMediatorService` and all colleagues are `@Injectable()` providers. The mediator receives all colleagues via constructor injection. Colleagues receive the mediator via a `setMediator()` method called in the mediator's constructor, establishing the bidirectional relationship after DI resolves all instances.
+
+<CodeTabs tabs={[
+  { filename: 'mediator.controller.ts', code: integrationController },
+  { filename: 'mediator.service.ts', code: integrationService },
+  { filename: 'mediator.module.ts', code: integrationModule },
+]} />
 
 ## When to Use
 

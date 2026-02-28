@@ -8,12 +8,16 @@ relatedPatterns: ["strategy", "factory-method"]
 order: 10
 ---
 
+import CodeBlock from '../../../components/CodeBlock.astro';
 import CodeTabs from '../../../components/CodeTabs.astro';
 
 import reportGenerator from '../../../code/behavioral/template-method/report-generator.ts?raw';
 import salesReport from '../../../code/behavioral/template-method/sales-report.generator.ts?raw';
 import inventoryReport from '../../../code/behavioral/template-method/inventory-report.generator.ts?raw';
 import customerReport from '../../../code/behavioral/template-method/customer-report.generator.ts?raw';
+import integrationController from '../../../code/behavioral/template-method/integration.controller.ts?raw';
+import integrationService from '../../../code/behavioral/template-method/integration.service.ts?raw';
+import integrationModule from '../../../code/behavioral/template-method/integration.module.ts?raw';
 
 ## The Problem
 
@@ -47,6 +51,12 @@ Three report generators:
 ## NestJS Integration
 
 Each concrete generator is decorated with `@Injectable()` and registered as a provider. The controller injects all generators and selects the correct one based on the route parameter. The abstract `ReportGenerator` base class is not injectable — it serves as a contract for subclasses. This maps well to NestJS's provider system where injectable services can use inheritance.
+
+<CodeTabs tabs={[
+  { filename: 'template-method.controller.ts', code: integrationController },
+  { filename: 'template-method.service.ts', code: integrationService },
+  { filename: 'template-method.module.ts', code: integrationModule },
+]} />
 
 ## When to Use
 

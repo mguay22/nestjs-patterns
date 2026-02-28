@@ -8,6 +8,7 @@ relatedPatterns: ["composite", "strategy", "chain-of-responsibility"]
 order: 4
 ---
 
+import CodeBlock from '../../../components/CodeBlock.astro';
 import CodeTabs from '../../../components/CodeTabs.astro';
 
 import processorInterface from '../../../code/structural/decorator/order-processor.interface.ts?raw';
@@ -16,6 +17,9 @@ import loggingDecorator from '../../../code/structural/decorator/logging.decorat
 import validationDecorator from '../../../code/structural/decorator/validation.decorator.ts?raw';
 import discountDecorator from '../../../code/structural/decorator/discount.decorator.ts?raw';
 import trackExecution from '../../../code/structural/decorator/track-execution.decorator.ts?raw';
+import integrationController from '../../../code/structural/decorator/integration.controller.ts?raw';
+import integrationService from '../../../code/structural/decorator/integration.service.ts?raw';
+import integrationModule from '../../../code/structural/decorator/integration.module.ts?raw';
 
 ## The Problem
 
@@ -50,6 +54,12 @@ The `ValidationDecorator` checks that items and prices are valid. The `LoggingDe
 ## NestJS Integration
 
 The `DecoratorController` is the only NestJS-managed class. The `BaseOrderProcessor` and its decorators are plain classes instantiated at request time, allowing fully dynamic composition based on the request payload. The `@TrackExecution()` TypeScript method decorator shows how NestJS's native decorator system parallels the GoF Decorator at the language level.
+
+<CodeTabs tabs={[
+  { filename: 'decorator.controller.ts', code: integrationController },
+  { filename: 'decorator.service.ts', code: integrationService },
+  { filename: 'decorator.module.ts', code: integrationModule },
+]} />
 
 ## When to Use
 

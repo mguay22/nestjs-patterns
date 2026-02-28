@@ -8,6 +8,7 @@ relatedPatterns: ["factory-method", "singleton", "builder"]
 order: 3
 ---
 
+import CodeBlock from '../../../components/CodeBlock.astro';
 import CodeTabs from '../../../components/CodeTabs.astro';
 
 import paymentInterfaces from '../../../code/creational/abstract-factory/payment.interfaces.ts?raw';
@@ -18,6 +19,9 @@ import stripeRefund from '../../../code/creational/abstract-factory/stripe-refun
 import paypalFactory from '../../../code/creational/abstract-factory/paypal.factory.ts?raw';
 import paypalProcessor from '../../../code/creational/abstract-factory/paypal-payment-processor.ts?raw';
 import paypalRefund from '../../../code/creational/abstract-factory/paypal-refund-handler.ts?raw';
+import integrationController from '../../../code/creational/abstract-factory/integration.controller.ts?raw';
+import integrationService from '../../../code/creational/abstract-factory/integration.service.ts?raw';
+import integrationModule from '../../../code/creational/abstract-factory/integration.module.ts?raw';
 
 ## The Problem
 
@@ -64,6 +68,12 @@ This pattern maps well to NestJS idioms:
 - **Custom providers with `useFactory`:** You could use NestJS's `useFactory` to dynamically select and return the correct factory based on environment configuration.
 - **Module-level encapsulation:** Each provider family (Stripe, PayPal) can be organized in its own subdirectory, mirroring NestJS conventions.
 - **Dependency injection:** The concrete product classes are created by the factory, not by the IoC container. The container manages the factories themselves.
+
+<CodeTabs tabs={[
+  { filename: 'abstract-factory.controller.ts', code: integrationController },
+  { filename: 'abstract-factory.service.ts', code: integrationService },
+  { filename: 'abstract-factory.module.ts', code: integrationModule },
+]} />
 
 ## When to Use
 

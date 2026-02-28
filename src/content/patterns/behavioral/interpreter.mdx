@@ -8,6 +8,7 @@ relatedPatterns: ["composite", "strategy", "visitor"]
 order: 3
 ---
 
+import CodeBlock from '../../../components/CodeBlock.astro';
 import CodeTabs from '../../../components/CodeTabs.astro';
 
 import expressionInterface from '../../../code/behavioral/interpreter/expression.interface.ts?raw';
@@ -16,6 +17,9 @@ import flatDiscount from '../../../code/behavioral/interpreter/flat-discount.exp
 import conditional from '../../../code/behavioral/interpreter/conditional.expression.ts?raw';
 import andExpression from '../../../code/behavioral/interpreter/and.expression.ts?raw';
 import parser from '../../../code/behavioral/interpreter/discount-parser.service.ts?raw';
+import integrationController from '../../../code/behavioral/interpreter/integration.controller.ts?raw';
+import integrationService from '../../../code/behavioral/interpreter/integration.service.ts?raw';
+import integrationModule from '../../../code/behavioral/interpreter/integration.module.ts?raw';
 
 ## The Problem
 
@@ -58,6 +62,12 @@ The supported grammar:
 ## NestJS Integration
 
 The `DiscountParserService` is an `@Injectable()` singleton provider. It is stateless — it parses rule strings into expression trees on each call. The expression objects themselves are plain classes, created dynamically during parsing. This clean separation means the parser can be injected into any service that needs discount evaluation.
+
+<CodeTabs tabs={[
+  { filename: 'interpreter.controller.ts', code: integrationController },
+  { filename: 'interpreter.service.ts', code: integrationService },
+  { filename: 'interpreter.module.ts', code: integrationModule },
+]} />
 
 ## When to Use
 

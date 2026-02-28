@@ -8,6 +8,7 @@ relatedPatterns: ["composite", "factory-method", "visitor"]
 order: 4
 ---
 
+import CodeBlock from '../../../components/CodeBlock.astro';
 import CodeTabs from '../../../components/CodeTabs.astro';
 
 import iteratorInterface from '../../../code/behavioral/iterator/iterator.interface.ts?raw';
@@ -15,6 +16,9 @@ import priceIterator from '../../../code/behavioral/iterator/price-ascending.ite
 import categoryIterator from '../../../code/behavioral/iterator/category.iterator.ts?raw';
 import paginatedIterator from '../../../code/behavioral/iterator/paginated.iterator.ts?raw';
 import productCollection from '../../../code/behavioral/iterator/product-collection.ts?raw';
+import integrationController from '../../../code/behavioral/iterator/integration.controller.ts?raw';
+import integrationService from '../../../code/behavioral/iterator/integration.service.ts?raw';
+import integrationModule from '../../../code/behavioral/iterator/integration.module.ts?raw';
 
 ## The Problem
 
@@ -49,6 +53,12 @@ The collection holds 12 products across three categories (electronics, sports, b
 ## NestJS Integration
 
 The `ProductCollection` is created in the controller and populated with sample data. The iterators are plain classes, not NestJS providers, since they hold traversal state specific to each request. The controller selects the appropriate iterator based on query parameters.
+
+<CodeTabs tabs={[
+  { filename: 'iterator.controller.ts', code: integrationController },
+  { filename: 'iterator.service.ts', code: integrationService },
+  { filename: 'iterator.module.ts', code: integrationModule },
+]} />
 
 ## When to Use
 

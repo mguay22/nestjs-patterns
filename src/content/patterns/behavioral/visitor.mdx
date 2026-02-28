@@ -8,6 +8,7 @@ relatedPatterns: ["composite", "iterator", "strategy"]
 order: 11
 ---
 
+import CodeBlock from '../../../components/CodeBlock.astro';
 import CodeTabs from '../../../components/CodeTabs.astro';
 
 import visitorInterface from '../../../code/behavioral/visitor/order-visitor.interface.ts?raw';
@@ -18,6 +19,9 @@ import subscriptionItem from '../../../code/behavioral/visitor/subscription-item
 import taxVisitor from '../../../code/behavioral/visitor/tax-calculator.visitor.ts?raw';
 import shippingVisitor from '../../../code/behavioral/visitor/shipping-cost.visitor.ts?raw';
 import discountVisitor from '../../../code/behavioral/visitor/discount.visitor.ts?raw';
+import integrationController from '../../../code/behavioral/visitor/integration.controller.ts?raw';
+import integrationService from '../../../code/behavioral/visitor/integration.service.ts?raw';
+import integrationModule from '../../../code/behavioral/visitor/integration.module.ts?raw';
 
 ## The Problem
 
@@ -56,6 +60,12 @@ Three visitors compute different aspects of an order:
 ## NestJS Integration
 
 The visitors are decorated with `@Injectable()` and registered as providers. The controller injects all three visitors and creates item elements from the request body. Each item's `accept()` method performs double dispatch, calling the appropriate `visit*` method on the visitor. This keeps the NestJS layer thin — the controller orchestrates, the visitors compute.
+
+<CodeTabs tabs={[
+  { filename: 'visitor.controller.ts', code: integrationController },
+  { filename: 'visitor.service.ts', code: integrationService },
+  { filename: 'visitor.module.ts', code: integrationModule },
+]} />
 
 ## When to Use
 

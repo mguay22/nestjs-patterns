@@ -8,12 +8,16 @@ relatedPatterns: ["decorator", "adapter", "facade"]
 order: 7
 ---
 
+import CodeBlock from '../../../components/CodeBlock.astro';
 import CodeTabs from '../../../components/CodeTabs.astro';
 
 import catalogInterface from '../../../code/structural/proxy/product-catalog.interface.ts?raw';
 import catalogService from '../../../code/structural/proxy/product-catalog.service.ts?raw';
 import cachingProxy from '../../../code/structural/proxy/caching-proxy.service.ts?raw';
 import accessProxy from '../../../code/structural/proxy/access-control-proxy.service.ts?raw';
+import integrationController from '../../../code/structural/proxy/integration.controller.ts?raw';
+import integrationService from '../../../code/structural/proxy/integration.service.ts?raw';
+import integrationModule from '../../../code/structural/proxy/integration.module.ts?raw';
 
 ## The Problem
 
@@ -44,6 +48,12 @@ The `ProductCatalogService` holds five products with a simulated 500ms delay. Th
 ## NestJS Integration
 
 All three classes are registered as NestJS providers. The `CachingProxyService` receives the real service via constructor injection. The `AccessControlProxyService` is configured with a `useFactory` provider that injects the `CachingProxyService`, creating the proxy chain through NestJS's dependency injection. This demonstrates how NestJS's DI container can compose proxies declaratively in the module definition.
+
+<CodeTabs tabs={[
+  { filename: 'proxy.controller.ts', code: integrationController },
+  { filename: 'proxy.service.ts', code: integrationService },
+  { filename: 'proxy.module.ts', code: integrationModule },
+]} />
 
 ## When to Use
 

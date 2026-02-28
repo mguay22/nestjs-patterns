@@ -8,6 +8,7 @@ relatedPatterns: ["state", "template-method", "factory-method"]
 order: 9
 ---
 
+import CodeBlock from '../../../components/CodeBlock.astro';
 import CodeTabs from '../../../components/CodeTabs.astro';
 
 import strategyInterface from '../../../code/behavioral/strategy/pricing-strategy.interface.ts?raw';
@@ -16,6 +17,9 @@ import flatDiscount from '../../../code/behavioral/strategy/flat-discount.strate
 import bogo from '../../../code/behavioral/strategy/bogo.strategy.ts?raw';
 import tieredPricing from '../../../code/behavioral/strategy/tiered-pricing.strategy.ts?raw';
 import pricingService from '../../../code/behavioral/strategy/pricing.service.ts?raw';
+import integrationController from '../../../code/behavioral/strategy/integration.controller.ts?raw';
+import integrationService from '../../../code/behavioral/strategy/integration.service.ts?raw';
+import integrationModule from '../../../code/behavioral/strategy/integration.module.ts?raw';
 
 ## The Problem
 
@@ -53,6 +57,12 @@ Four interchangeable pricing strategies:
 ## NestJS Integration
 
 All strategies are decorated with `@Injectable()` and registered as providers. The `PricingService` receives all strategies via constructor injection and stores them in a map. The controller specifies the strategy name in the request, and the service selects and applies it. This leverages NestJS's DI to manage strategy lifecycle.
+
+<CodeTabs tabs={[
+  { filename: 'strategy.controller.ts', code: integrationController },
+  { filename: 'strategy.service.ts', code: integrationService },
+  { filename: 'strategy.module.ts', code: integrationModule },
+]} />
 
 ## When to Use
 

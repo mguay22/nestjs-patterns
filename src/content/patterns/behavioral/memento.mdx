@@ -8,11 +8,15 @@ relatedPatterns: ["command", "iterator", "prototype"]
 order: 6
 ---
 
+import CodeBlock from '../../../components/CodeBlock.astro';
 import CodeTabs from '../../../components/CodeTabs.astro';
 
 import cartMemento from '../../../code/behavioral/memento/cart-memento.ts?raw';
 import shoppingCart from '../../../code/behavioral/memento/shopping-cart.ts?raw';
 import cartHistory from '../../../code/behavioral/memento/cart-history.service.ts?raw';
+import integrationController from '../../../code/behavioral/memento/integration.controller.ts?raw';
+import integrationService from '../../../code/behavioral/memento/integration.service.ts?raw';
+import integrationModule from '../../../code/behavioral/memento/integration.module.ts?raw';
 
 ## The Problem
 
@@ -41,6 +45,12 @@ The shopping cart supports adding items (with quantity merging for duplicates), 
 ## NestJS Integration
 
 The `CartHistoryService` is an `@Injectable()` singleton that persists undo/redo stacks across requests. The `ShoppingCart` is also a singleton provider, simulating a single-user cart for demonstration. In production, you would use request-scoped or session-scoped providers.
+
+<CodeTabs tabs={[
+  { filename: 'memento.controller.ts', code: integrationController },
+  { filename: 'memento.service.ts', code: integrationService },
+  { filename: 'memento.module.ts', code: integrationModule },
+]} />
 
 ## When to Use
 

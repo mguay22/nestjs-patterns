@@ -8,6 +8,7 @@ relatedPatterns: ["adapter", "mediator", "abstract-factory"]
 order: 5
 ---
 
+import CodeBlock from '../../../components/CodeBlock.astro';
 import CodeTabs from '../../../components/CodeTabs.astro';
 
 import inventoryService from '../../../code/structural/facade/inventory.service.ts?raw';
@@ -15,6 +16,9 @@ import paymentService from '../../../code/structural/facade/payment.service.ts?r
 import shippingService from '../../../code/structural/facade/shipping.service.ts?raw';
 import notificationService from '../../../code/structural/facade/notification.service.ts?raw';
 import orderFacade from '../../../code/structural/facade/order-facade.service.ts?raw';
+import integrationController from '../../../code/structural/facade/integration.controller.ts?raw';
+import integrationService from '../../../code/structural/facade/integration.service.ts?raw';
+import integrationModule from '../../../code/structural/facade/integration.module.ts?raw';
 
 ## The Problem
 
@@ -50,6 +54,12 @@ The facade coordinates a four-step workflow:
 ## NestJS Integration
 
 All subsystem services and the facade are registered as `@Injectable()` providers. The `OrderFacadeService` receives all four services through constructor injection. The module exports `OrderFacadeService` so other modules can use the simplified interface without importing individual subsystem services. This aligns naturally with NestJS's modular architecture, where the facade acts as the module's public API.
+
+<CodeTabs tabs={[
+  { filename: 'facade.controller.ts', code: integrationController },
+  { filename: 'facade.service.ts', code: integrationService },
+  { filename: 'facade.module.ts', code: integrationModule },
+]} />
 
 ## When to Use
 

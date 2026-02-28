@@ -8,6 +8,7 @@ relatedPatterns: ["adapter", "strategy", "abstract-factory"]
 order: 2
 ---
 
+import CodeBlock from '../../../components/CodeBlock.astro';
 import CodeTabs from '../../../components/CodeTabs.astro';
 
 import senderInterface from '../../../code/structural/bridge/notification-sender.interface.ts?raw';
@@ -17,6 +18,9 @@ import pushSender from '../../../code/structural/bridge/push-sender.ts?raw';
 import notification from '../../../code/structural/bridge/notification.ts?raw';
 import orderConfirmation from '../../../code/structural/bridge/order-confirmation.notification.ts?raw';
 import shippingUpdate from '../../../code/structural/bridge/shipping-update.notification.ts?raw';
+import integrationController from '../../../code/structural/bridge/integration.controller.ts?raw';
+import integrationService from '../../../code/structural/bridge/integration.service.ts?raw';
+import integrationModule from '../../../code/structural/bridge/integration.module.ts?raw';
 
 ## The Problem
 
@@ -51,6 +55,12 @@ The Bridge pattern splits the problem into two independent hierarchies: the **ab
 ## NestJS Integration
 
 This implementation creates sender and notification instances on-demand within the controller based on request parameters, demonstrating that the Bridge pattern does not require all participants to be NestJS-managed singletons — the key structural relationship is established at request time. In a production system, the senders could be registered as NestJS providers.
+
+<CodeTabs tabs={[
+  { filename: 'bridge.controller.ts', code: integrationController },
+  { filename: 'bridge.service.ts', code: integrationService },
+  { filename: 'bridge.module.ts', code: integrationModule },
+]} />
 
 ## When to Use
 

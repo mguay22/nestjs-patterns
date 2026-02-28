@@ -8,6 +8,7 @@ relatedPatterns: ["mediator", "command", "chain-of-responsibility"]
 order: 7
 ---
 
+import CodeBlock from '../../../components/CodeBlock.astro';
 import CodeTabs from '../../../components/CodeTabs.astro';
 
 import orderEvent from '../../../code/behavioral/observer/order-event.ts?raw';
@@ -15,6 +16,9 @@ import orderService from '../../../code/behavioral/observer/order.service.ts?raw
 import inventoryObserver from '../../../code/behavioral/observer/inventory.observer.ts?raw';
 import analyticsObserver from '../../../code/behavioral/observer/analytics.observer.ts?raw';
 import emailObserver from '../../../code/behavioral/observer/email.observer.ts?raw';
+import integrationController from '../../../code/behavioral/observer/integration.controller.ts?raw';
+import integrationService from '../../../code/behavioral/observer/integration.service.ts?raw';
+import integrationModule from '../../../code/behavioral/observer/integration.module.ts?raw';
 
 ## The Problem
 
@@ -45,6 +49,12 @@ All three observers are registered as `@Injectable()` providers and use the `@On
 ## NestJS Integration
 
 This implementation leverages NestJS's built-in `@nestjs/event-emitter` package, which provides `EventEmitter2` for publishing events and the `@OnEvent()` decorator for subscribing. This is a natural fit because NestJS's event emitter is itself an implementation of the Observer pattern. The module imports `EventEmitterModule.forRoot()` to initialize the event system. Each observer is simply an `@Injectable()` service — NestJS automatically discovers and wires up the `@OnEvent` handlers.
+
+<CodeTabs tabs={[
+  { filename: 'observer.controller.ts', code: integrationController },
+  { filename: 'observer.service.ts', code: integrationService },
+  { filename: 'observer.module.ts', code: integrationModule },
+]} />
 
 ## When to Use
 

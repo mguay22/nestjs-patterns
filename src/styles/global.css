@@ -7,6 +7,8 @@
 @import "@fontsource/jetbrains-mono/400.css";
 @import "@fontsource/jetbrains-mono/500.css";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --color-accent: #6366F1;
   --color-accent-light: #818CF8;
@@ -20,11 +22,13 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
   font-family: var(--font-sans);
   @apply text-gray-900 bg-white antialiased;
+  @apply dark:text-gray-100 dark:bg-gray-950;
 }
 
 code, pre {
@@ -34,6 +38,7 @@ code, pre {
 /* Prose overrides for inline code */
 .prose code:not(pre code) {
   @apply bg-gray-100 px-1.5 py-0.5 rounded text-[0.8125rem] font-medium text-gray-800;
+  @apply dark:bg-gray-800 dark:text-gray-200;
 }
 
 .prose code:not(pre code)::before,
@@ -43,7 +48,7 @@ code, pre {
 
 /* Prose pre blocks (fenced markdown code) */
 .prose pre {
-  @apply rounded-lg border border-gray-800 bg-[#282c34];
+  @apply rounded-lg border border-gray-800 bg-[#282c34] dark:border-gray-700;
 }
 
 /* Shiki code blocks rendered by Astro Code component */

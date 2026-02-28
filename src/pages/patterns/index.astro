@@ -10,10 +10,10 @@ const categories = ['creational', 'structural', 'behavioral'] as const;
   title="All Design Patterns — NestJS Design Patterns"
   description="Browse all 23 Gang of Four design patterns implemented with NestJS and TypeScript."
 >
-  <section class="border-b border-gray-200 bg-gradient-to-b from-gray-50 to-white">
+  <section class="border-b border-gray-200 dark:border-gray-800 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-950">
     <div class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
-      <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">All Design Patterns</h1>
-      <p class="mt-3 text-lg text-gray-600">
+      <h1 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl">All Design Patterns</h1>
+      <p class="mt-3 text-lg text-gray-600 dark:text-gray-400">
         All 23 Gang of Four design patterns, organized by category. Each includes a real-world e-commerce example built with NestJS.
       </p>
     </div>
@@ -27,12 +27,12 @@ const categories = ['creational', 'structural', 'behavioral'] as const;
       return (
         <section>
           <div class="flex items-center gap-3 mb-6">
-            <h2 class="text-2xl font-bold text-gray-900">{meta.label}</h2>
-            <span class="rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-600">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">{meta.label}</h2>
+            <span class="rounded-full bg-gray-100 dark:bg-gray-800 px-2.5 py-0.5 text-xs font-medium text-gray-600 dark:text-gray-400">
               {meta.count} patterns
             </span>
           </div>
-          <p class="mb-6 text-gray-600">{meta.description}</p>
+          <p class="mb-6 text-gray-600 dark:text-gray-400">{meta.description}</p>
           <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {catPatterns.map((p) => (
               <PatternCard

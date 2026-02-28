@@ -1,0 +1,56 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import PatternHeader from '../components/PatternHeader.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+import RelatedPatterns from '../components/RelatedPatterns.astro';
+import type { Category, Complexity } from '../data/patterns';
+import { categoryMeta } from '../data/patterns';
+
+interface Props {
+  title: string;
+  category: Category;
+  intent: string;
+  complexity: Complexity;
+  relatedPatterns?: string[];
+}
+
+const { title, category, intent, complexity, relatedPatterns = [] } = Astro.props;
+
+const crumbs = [
+  { label: 'Patterns', href: '/patterns/' },
+  { label: categoryMeta[category].label, href: `/patterns/${category}/` },
+  { label: title },
+];
+
+const tocItems = [
+  { label: 'The Problem', href: '#the-problem' },
+  { label: 'The Solution', href: '#the-solution' },
+  { label: 'Structure', href: '#structure' },
+  { label: 'Implementation', href: '#implementation' },
+  { label: 'NestJS Integration', href: '#nestjs-integration' },
+  { label: 'When to Use', href: '#when-to-use' },
+  { label: 'Related Patterns', href: '#related-patterns' },
+];
+---
+
+<BaseLayout title={`${title} Pattern — NestJS Design Patterns`} description={intent}>
+  <PatternHeader title={title} category={category} intent={intent} complexity={complexity} />
+
+  <div class="mx-auto max-w-6xl px-4 py-8 sm:px-6">
+    <Breadcrumb crumbs={crumbs} />
+
+    <div class="mt-8 flex gap-12">
+      <!-- Main content -->
+      <article class="prose prose-gray max-w-4xl flex-1 prose-headings:scroll-mt-20">
+        <slot />
+        <RelatedPatterns slugs={relatedPatterns} />
+      </article>
+
+      <!-- Sidebar TOC -->
+      <aside class="hidden xl:block w-56 shrink-0">
+        <TableOfContents items={tocItems} />
+      </aside>
+    </div>
+  </div>
+</BaseLayout>

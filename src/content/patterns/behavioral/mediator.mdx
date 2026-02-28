@@ -1,0 +1,63 @@
+---
+title: "Mediator"
+category: "behavioral"
+intent: "Define an object that encapsulates how a set of objects interact."
+complexity: "medium"
+popularity: "medium"
+relatedPatterns: ["observer", "facade", "command"]
+order: 5
+---
+
+import CodeTabs from '../../../components/CodeTabs.astro';
+
+import mediatorInterface from '../../../code/behavioral/mediator/mediator.interface.ts?raw';
+import colleague from '../../../code/behavioral/mediator/colleague.interface.ts?raw';
+import inventory from '../../../code/behavioral/mediator/inventory.colleague.ts?raw';
+import payment from '../../../code/behavioral/mediator/payment.colleague.ts?raw';
+import shipping from '../../../code/behavioral/mediator/shipping.colleague.ts?raw';
+import notification from '../../../code/behavioral/mediator/notification.colleague.ts?raw';
+import orderMediator from '../../../code/behavioral/mediator/order-mediator.service.ts?raw';
+
+## The Problem
+
+Placing an order involves coordinating inventory, payment, shipping, and notifications. Direct communication between subsystems creates a web of dependencies where each service must know about every other service it interacts with. Adding a new subsystem requires modifying all existing ones.
+
+## The Solution
+
+The Mediator pattern introduces a central coordinator (`OrderMediatorService`) that manages interactions between subsystems (colleagues). Each colleague knows only the mediator, not the other colleagues. The mediator handles the sequencing and can implement rollback logic (e.g., releasing inventory if payment fails).
+
+## Structure
+
+- **Mediator** (interface) — Declares `notify(sender, event, data)`.
+- **Concrete Mediator** — `OrderMediatorService` orchestrates the workflow.
+- **Colleague** (abstract) — Base class that holds a reference to the mediator.
+- **Concrete Colleagues** — `InventoryColleague`, `PaymentColleague`, `ShippingColleague`, `NotificationColleague`.
+
+## Implementation
+
+The mediator coordinates a multi-step order placement workflow: Inventory reservation -> Payment processing -> Shipping creation -> Notification sending. If payment fails, the mediator handles rollback by releasing the inventory reservation.
+
+<CodeTabs tabs={[
+  { filename: 'mediator.interface.ts', code: mediatorInterface },
+  { filename: 'colleague.interface.ts', code: colleague },
+  { filename: 'inventory.colleague.ts', code: inventory },
+  { filename: 'payment.colleague.ts', code: payment },
+  { filename: 'shipping.colleague.ts', code: shipping },
+  { filename: 'notification.colleague.ts', code: notification },
+  { filename: 'order-mediator.service.ts', code: orderMediator },
+]} />
+
+## NestJS Integration
+
+The `OrderMediatorService` and all colleagues are `@Injectable()` providers. The mediator receives all colleagues via constructor injection. Colleagues receive the mediator via a `setMediator()` method called in the mediator's constructor, establishing the bidirectional relationship after DI resolves all instances.
+
+## When to Use
+
+- Multiple objects communicate in complex ways and the resulting dependencies are hard to understand.
+- You want to centralize control logic that is currently distributed across many objects.
+- You need to add rollback or compensation logic when multi-step workflows fail.
+
+### When NOT to Use
+
+- Communication between objects is simple — a mediator adds unnecessary indirection.
+- The mediator becomes a "God object" with too much logic — consider splitting responsibilities.

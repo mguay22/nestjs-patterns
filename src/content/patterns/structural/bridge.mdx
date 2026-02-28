@@ -1,0 +1,65 @@
+---
+title: "Bridge"
+category: "structural"
+intent: "Decouple an abstraction from its implementation so that the two can vary independently."
+complexity: "high"
+popularity: "medium"
+relatedPatterns: ["adapter", "strategy", "abstract-factory"]
+order: 2
+---
+
+import CodeTabs from '../../../components/CodeTabs.astro';
+
+import senderInterface from '../../../code/structural/bridge/notification-sender.interface.ts?raw';
+import emailSender from '../../../code/structural/bridge/email-sender.ts?raw';
+import smsSender from '../../../code/structural/bridge/sms-sender.ts?raw';
+import pushSender from '../../../code/structural/bridge/push-sender.ts?raw';
+import notification from '../../../code/structural/bridge/notification.ts?raw';
+import orderConfirmation from '../../../code/structural/bridge/order-confirmation.notification.ts?raw';
+import shippingUpdate from '../../../code/structural/bridge/shipping-update.notification.ts?raw';
+
+## The Problem
+
+An e-commerce platform needs to send different types of notifications (order confirmations, shipping updates) through different channels (email, SMS, push). Without the Bridge pattern, you would need a separate class for every combination — `OrderConfirmationEmail`, `OrderConfirmationSms`, `ShippingUpdatePush`, and so on — leading to a combinatorial explosion.
+
+## The Solution
+
+The Bridge pattern splits the problem into two independent hierarchies: the **abstraction** (notification types) and the **implementation** (delivery channels). The abstraction holds a reference to an implementation object and delegates the actual sending to it. New notification types or channels can be added independently.
+
+## Structure
+
+- **Implementor Interface** (`NotificationSender`) — Defines the `send(to, subject, body)` method.
+- **Concrete Implementors** (`EmailSender`, `SmsSender`, `PushSender`) — Each implements `NotificationSender` for a specific delivery channel.
+- **Abstraction** (`Notification`) — Abstract class that holds a reference to a `NotificationSender` and defines a `notify(to)` template method.
+- **Refined Abstractions** (`OrderConfirmationNotification`, `ShippingUpdateNotification`) — Concrete subclasses that provide specific subject and body content.
+- **Client** (`BridgeController`) — Resolves the appropriate sender and notification type at runtime.
+
+## Implementation
+
+`OrderConfirmationNotification` builds a subject like "Order Confirmation - #ORD-123" with a thank-you body. `ShippingUpdateNotification` builds a subject with tracking information. These are independent from the delivery mechanism.
+
+<CodeTabs tabs={[
+  { filename: 'notification-sender.interface.ts', code: senderInterface },
+  { filename: 'email-sender.ts', code: emailSender },
+  { filename: 'sms-sender.ts', code: smsSender },
+  { filename: 'push-sender.ts', code: pushSender },
+  { filename: 'notification.ts', code: notification },
+  { filename: 'order-confirmation.notification.ts', code: orderConfirmation },
+  { filename: 'shipping-update.notification.ts', code: shippingUpdate },
+]} />
+
+## NestJS Integration
+
+This implementation creates sender and notification instances on-demand within the controller based on request parameters, demonstrating that the Bridge pattern does not require all participants to be NestJS-managed singletons — the key structural relationship is established at request time. In a production system, the senders could be registered as NestJS providers.
+
+## When to Use
+
+- You want to avoid a combinatorial explosion of classes when you have two or more independent dimensions of variation.
+- You need to switch implementations at runtime (e.g., choosing email vs. SMS based on user preferences).
+- Both the abstraction and its implementation should be extensible independently.
+
+### When NOT to Use
+
+- There is only one dimension of variation — a simple interface and implementations will suffice.
+- The abstraction and implementation are unlikely to change independently.
+- The relationship is so tightly coupled that separating them would require constant coordination.

@@ -1,0 +1,71 @@
+---
+title: "Interpreter"
+category: "behavioral"
+intent: "Given a language, define a representation for its grammar along with an interpreter that uses the representation to interpret sentences in the language."
+complexity: "high"
+popularity: "low"
+relatedPatterns: ["composite", "strategy", "visitor"]
+order: 3
+---
+
+import CodeTabs from '../../../components/CodeTabs.astro';
+
+import expressionInterface from '../../../code/behavioral/interpreter/expression.interface.ts?raw';
+import percentDiscount from '../../../code/behavioral/interpreter/percent-discount.expression.ts?raw';
+import flatDiscount from '../../../code/behavioral/interpreter/flat-discount.expression.ts?raw';
+import conditional from '../../../code/behavioral/interpreter/conditional.expression.ts?raw';
+import andExpression from '../../../code/behavioral/interpreter/and.expression.ts?raw';
+import parser from '../../../code/behavioral/interpreter/discount-parser.service.ts?raw';
+
+## The Problem
+
+An e-commerce platform needs a flexible discount rule engine where business users can define rules like "10% off orders above $100" without modifying code. Hard-coding each discount rule creates tight coupling and makes the system rigid.
+
+## The Solution
+
+The Interpreter pattern defines a mini-language for discount rules (e.g., `PERCENT 10 IF TOTAL_ABOVE 100`) and builds an AST of expression objects. A parser service translates rule strings into composable expression objects that can be evaluated against any order context.
+
+## Structure
+
+- **Abstract Expression** (`Expression` interface) — Declares `interpret(context)`.
+- **Terminal Expressions** — `PercentDiscountExpression`, `FlatDiscountExpression`.
+- **Non-Terminal Expressions** — `ConditionalExpression`, `AndExpression`.
+- **Context** — `DiscountContext` carries order data.
+- **Parser** — `DiscountParserService` translates rule strings into expression trees.
+
+## Implementation
+
+The supported grammar:
+
+| Rule Format | Example | Meaning |
+|---|---|---|
+| `PERCENT <n>` | `PERCENT 10` | 10% off the total |
+| `FLAT <n>` | `FLAT 5` | $5 off |
+| `<rule> IF TOTAL_ABOVE <n>` | `PERCENT 10 IF TOTAL_ABOVE 100` | 10% off if total exceeds $100 |
+| `<rule> IF ITEMS_ABOVE <n>` | `FLAT 15 IF ITEMS_ABOVE 5` | $15 off if more than 5 items |
+| `<rule> IF CUSTOMER_IS <type>` | `PERCENT 20 IF CUSTOMER_IS vip` | 20% off for VIP customers |
+| `<rule> AND <rule>` | `FLAT 5 AND PERCENT 10` | Both discounts combined |
+
+<CodeTabs tabs={[
+  { filename: 'expression.interface.ts', code: expressionInterface },
+  { filename: 'percent-discount.expression.ts', code: percentDiscount },
+  { filename: 'flat-discount.expression.ts', code: flatDiscount },
+  { filename: 'conditional.expression.ts', code: conditional },
+  { filename: 'and.expression.ts', code: andExpression },
+  { filename: 'discount-parser.service.ts', code: parser },
+]} />
+
+## NestJS Integration
+
+The `DiscountParserService` is an `@Injectable()` singleton provider. It is stateless — it parses rule strings into expression trees on each call. The expression objects themselves are plain classes, created dynamically during parsing. This clean separation means the parser can be injected into any service that needs discount evaluation.
+
+## When to Use
+
+- You need to interpret a simple, well-defined language or set of rules.
+- The grammar is stable and doesn't change frequently.
+- Business users need to define rules without code changes.
+
+### When NOT to Use
+
+- The grammar is complex — consider a proper parser generator instead.
+- Performance is critical and rules are evaluated millions of times — the tree-walking approach adds overhead.

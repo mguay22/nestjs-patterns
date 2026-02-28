@@ -1,0 +1,67 @@
+---
+title: "Strategy"
+category: "behavioral"
+intent: "Define a family of algorithms, encapsulate each one, and make them interchangeable."
+complexity: "low"
+popularity: "high"
+relatedPatterns: ["state", "template-method", "factory-method"]
+order: 9
+---
+
+import CodeTabs from '../../../components/CodeTabs.astro';
+
+import strategyInterface from '../../../code/behavioral/strategy/pricing-strategy.interface.ts?raw';
+import percentageDiscount from '../../../code/behavioral/strategy/percentage-discount.strategy.ts?raw';
+import flatDiscount from '../../../code/behavioral/strategy/flat-discount.strategy.ts?raw';
+import bogo from '../../../code/behavioral/strategy/bogo.strategy.ts?raw';
+import tieredPricing from '../../../code/behavioral/strategy/tiered-pricing.strategy.ts?raw';
+import pricingService from '../../../code/behavioral/strategy/pricing.service.ts?raw';
+
+## The Problem
+
+Multiple pricing models (percentage discount, flat discount, buy-one-get-one, volume-based tiers) are embedded in a single service with conditional logic. Adding a new pricing strategy requires modifying the existing service, violating the Open/Closed Principle.
+
+## The Solution
+
+The Strategy pattern extracts each pricing algorithm into its own class implementing `PricingStrategy`. The `PricingService` holds a reference to the current strategy and delegates calculations. Strategies are interchangeable at runtime.
+
+## Structure
+
+- **Strategy** (`PricingStrategy` interface) — Declares `calculate(basePrice, quantity)`.
+- **Concrete Strategies** — `PercentageDiscountStrategy`, `FlatDiscountStrategy`, `BogoStrategy`, `TieredPricingStrategy`.
+- **Context** — `PricingService` delegates to the current strategy.
+- **Client** — `StrategyController` selects the strategy from the request.
+
+## Implementation
+
+Four interchangeable pricing strategies:
+
+1. **PercentageDiscountStrategy** — Configurable percentage discount (e.g., 15% off).
+2. **FlatDiscountStrategy** — Fixed dollar amount off (capped at the subtotal).
+3. **BogoStrategy** — Buy One Get One Free.
+4. **TieredPricingStrategy** — Volume-based: 0% for 1-10 items, 10% for 11-50, 20% for 50+.
+
+<CodeTabs tabs={[
+  { filename: 'pricing-strategy.interface.ts', code: strategyInterface },
+  { filename: 'percentage-discount.strategy.ts', code: percentageDiscount },
+  { filename: 'flat-discount.strategy.ts', code: flatDiscount },
+  { filename: 'bogo.strategy.ts', code: bogo },
+  { filename: 'tiered-pricing.strategy.ts', code: tieredPricing },
+  { filename: 'pricing.service.ts', code: pricingService },
+]} />
+
+## NestJS Integration
+
+All strategies are decorated with `@Injectable()` and registered as providers. The `PricingService` receives all strategies via constructor injection and stores them in a map. The controller specifies the strategy name in the request, and the service selects and applies it. This leverages NestJS's DI to manage strategy lifecycle.
+
+## When to Use
+
+- You have a family of related algorithms and want to switch between them at runtime.
+- You want to isolate the algorithm logic from the code that uses it.
+- Multiple classes differ only in their behavior — Strategy lets you extract the varying behavior.
+- You want to eliminate conditional statements for selecting behaviors.
+
+### When NOT to Use
+
+- You only have one or two algorithms that rarely change — the pattern adds unnecessary abstraction.
+- The algorithms share significant state with the context, making separation awkward.

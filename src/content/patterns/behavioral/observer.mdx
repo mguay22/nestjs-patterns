@@ -1,0 +1,60 @@
+---
+title: "Observer"
+category: "behavioral"
+intent: "Define a one-to-many dependency between objects so that when one object changes state, all its dependents are notified and updated automatically."
+complexity: "medium"
+popularity: "high"
+relatedPatterns: ["mediator", "command", "chain-of-responsibility"]
+order: 7
+---
+
+import CodeTabs from '../../../components/CodeTabs.astro';
+
+import orderEvent from '../../../code/behavioral/observer/order-event.ts?raw';
+import orderService from '../../../code/behavioral/observer/order.service.ts?raw';
+import inventoryObserver from '../../../code/behavioral/observer/inventory.observer.ts?raw';
+import analyticsObserver from '../../../code/behavioral/observer/analytics.observer.ts?raw';
+import emailObserver from '../../../code/behavioral/observer/email.observer.ts?raw';
+
+## The Problem
+
+When a customer places an order, multiple subsystems need to react: inventory must be decremented, analytics must record the sale, and a confirmation email must be sent. If the order service calls each subsystem directly, it becomes tightly coupled. Adding a new reaction (e.g., loyalty points) requires modifying the order service.
+
+## The Solution
+
+The Observer pattern decouples the order service from its dependents by using an event-driven architecture. The order service publishes an `order.created` event, and independent observer services subscribe to that event. Each observer reacts independently without the order service knowing about any of them.
+
+## Structure
+
+- **Subject / Publisher** (`OrderService`) — Creates the order and emits the `order.created` event via `EventEmitter2`.
+- **Event** (`OrderCreatedEvent`) — Carries the order data.
+- **Concrete Observers** (`InventoryObserver`, `AnalyticsObserver`, `EmailObserver`) — Each listens for `order.created` and performs its own action.
+
+## Implementation
+
+<CodeTabs tabs={[
+  { filename: 'order-event.ts', code: orderEvent },
+  { filename: 'order.service.ts', code: orderService },
+  { filename: 'inventory.observer.ts', code: inventoryObserver },
+  { filename: 'analytics.observer.ts', code: analyticsObserver },
+  { filename: 'email.observer.ts', code: emailObserver },
+]} />
+
+All three observers are registered as `@Injectable()` providers and use the `@OnEvent('order.created')` decorator to subscribe. The order service has zero knowledge of which observers exist.
+
+## NestJS Integration
+
+This implementation leverages NestJS's built-in `@nestjs/event-emitter` package, which provides `EventEmitter2` for publishing events and the `@OnEvent()` decorator for subscribing. This is a natural fit because NestJS's event emitter is itself an implementation of the Observer pattern. The module imports `EventEmitterModule.forRoot()` to initialize the event system. Each observer is simply an `@Injectable()` service — NestJS automatically discovers and wires up the `@OnEvent` handlers.
+
+## When to Use
+
+- Multiple objects need to react when another object's state changes.
+- You want to decouple the object that triggers changes from the objects that respond.
+- The set of observers needs to change at runtime or across deployments.
+- You are building an event-driven or reactive architecture.
+
+### When NOT to Use
+
+- There is only one subscriber — a direct method call is simpler.
+- The order of observer execution matters and must be strictly controlled.
+- Observers need to return results to the publisher — consider the Mediator pattern instead.

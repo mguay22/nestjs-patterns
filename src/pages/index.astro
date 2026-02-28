@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CategoryCard from '../components/CategoryCard.astro';
+import PatternCard from '../components/PatternCard.astro';
+import { patterns, categoryMeta, type Category } from '../data/patterns';
+
+const categories = Object.entries(categoryMeta) as [Category, typeof categoryMeta[Category]][];
+---
+
+<BaseLayout
+  title="NestJS Design Patterns — All 23 GoF Patterns"
+  description="Learn all 23 Gang of Four design patterns implemented with NestJS. Real-world e-commerce examples with TypeScript code."
+>
+  <!-- Hero -->
+  <section class="border-b border-gray-200 bg-gradient-to-b from-gray-50 to-white">
+    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24 text-center">
+      <p class="mb-4 text-sm font-semibold uppercase tracking-wider text-accent">
+        All 23 GoF Design Patterns
+      </p>
+      <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
+        Design Patterns in
+        <span class="text-accent">NestJS</span>
+      </h1>
+      <p class="mx-auto mt-6 max-w-2xl text-lg text-gray-600">
+        A comprehensive guide to the Gang of Four design patterns, implemented with real-world e-commerce examples using NestJS, TypeScript, and dependency injection.
+      </p>
+      <div class="mt-8 flex justify-center gap-4">
+        <a
+          href="/patterns/"
+          class="rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-accent-dark transition-colors"
+        >
+          Browse All Patterns
+        </a>
+        <a
+          href="/about/"
+          class="rounded-lg border border-gray-300 px-6 py-3 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
+        >
+          About This Project
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Category Cards -->
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <h2 class="text-2xl font-bold text-gray-900">Pattern Categories</h2>
+    <p class="mt-2 text-gray-600">Three categories covering object creation, composition, and communication.</p>
+    <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {categories.map(([key, meta]) => (
+        <CategoryCard category={key} label={meta.label} description={meta.description} count={meta.count} />
+      ))}
+    </div>
+  </section>
+
+  <!-- All Patterns Grid -->
+  <section class="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
+    <h2 class="text-2xl font-bold text-gray-900">All 23 Patterns</h2>
+    <p class="mt-2 text-gray-600">Every Gang of Four pattern with NestJS implementation and TypeScript code.</p>
+    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {patterns.map((p) => (
+        <PatternCard
+          title={p.title}
+          slug={p.slug}
+          category={p.category}
+          intent={p.intent}
+          complexity={p.complexity}
+        />
+      ))}
+    </div>
+  </section>
+</BaseLayout>

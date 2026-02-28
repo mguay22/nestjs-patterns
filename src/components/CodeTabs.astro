@@ -1,0 +1,105 @@
+---
+import { Code } from 'astro:components';
+
+interface Tab {
+  filename: string;
+  code: string;
+}
+
+interface Props {
+  tabs: Tab[];
+  lang?: string;
+}
+
+const { tabs, lang = 'typescript' } = Astro.props;
+const id = `ct-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<div class="not-prose my-6 rounded-lg border border-gray-200 overflow-hidden" data-codetabs={id}>
+  <!-- Tab bar -->
+  <div class="flex border-b border-gray-200 bg-gray-50">
+    <div class="flex overflow-x-auto">
+      {tabs.map((tab, i) => (
+        <button
+          data-tab-index={i}
+          class:list={[
+            'shrink-0 px-4 py-2.5 text-xs font-medium transition-colors border-b-2 cursor-pointer',
+            i === 0
+              ? 'border-accent text-gray-900 bg-white'
+              : 'border-transparent text-gray-500 hover:text-gray-700',
+          ]}
+        >
+          {tab.filename}
+        </button>
+      ))}
+    </div>
+    <button data-fullscreen-toggle class="ml-auto shrink-0 px-3 py-2.5 text-gray-400 hover:text-gray-600 transition-colors cursor-pointer" title="Toggle fullscreen">
+      <svg data-icon-expand class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9m11.25-5.25v4.5m0-4.5h-4.5m4.5 0L15 9m-11.25 11.25v-4.5m0 4.5h4.5m-4.5 0L9 15m11.25 5.25v-4.5m0 4.5h-4.5m4.5 0L15 15" />
+      </svg>
+      <svg data-icon-collapse class="h-4 w-4 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Code panels -->
+  {tabs.map((tab, i) => (
+    <div
+      data-tab-panel={i}
+      data-code-panel
+      class:list={['overflow-auto max-h-[32rem]', i !== 0 && 'hidden']}
+    >
+      <Code code={tab.code.trim()} lang={lang} theme="one-dark-pro" />
+    </div>
+  ))}
+</div>
+
+<script>
+  function initCodeTabs() {
+    document.querySelectorAll('[data-codetabs]').forEach((container) => {
+      const buttons = container.querySelectorAll<HTMLButtonElement>('[data-tab-index]');
+      const panels = container.querySelectorAll<HTMLDivElement>('[data-tab-panel]');
+      const fsToggle = container.querySelector<HTMLButtonElement>('[data-fullscreen-toggle]');
+      const iconExpand = container.querySelector<SVGElement>('[data-icon-expand]');
+      const iconCollapse = container.querySelector<SVGElement>('[data-icon-collapse]');
+
+      buttons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const idx = btn.dataset.tabIndex;
+
+          buttons.forEach((b) => {
+            const active = b.dataset.tabIndex === idx;
+            b.classList.toggle('border-accent', active);
+            b.classList.toggle('text-gray-900', active);
+            b.classList.toggle('bg-white', active);
+            b.classList.toggle('border-transparent', !active);
+            b.classList.toggle('text-gray-500', !active);
+          });
+
+          panels.forEach((p) => {
+            p.classList.toggle('hidden', p.dataset.tabPanel !== idx);
+          });
+        });
+      });
+
+      function toggleFullscreen() {
+        const isFullscreen = container.classList.toggle('code-fullscreen');
+        iconExpand?.classList.toggle('hidden', isFullscreen);
+        iconCollapse?.classList.toggle('hidden', !isFullscreen);
+        document.documentElement.classList.toggle('overflow-hidden', isFullscreen);
+      }
+
+      fsToggle?.addEventListener('click', toggleFullscreen);
+
+      container.addEventListener('keydown', (e: Event) => {
+        if ((e as KeyboardEvent).key === 'Escape' && container.classList.contains('code-fullscreen')) {
+          toggleFullscreen();
+        }
+      });
+    });
+  }
+
+  initCodeTabs();
+  document.addEventListener('astro:after-swap', initCodeTabs);
+</script>

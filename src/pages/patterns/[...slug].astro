@@ -1,0 +1,25 @@
+---
+import { getCollection, render } from 'astro:content';
+import PatternLayout from '../../layouts/PatternLayout.astro';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('patterns');
+  return entries.map((entry) => ({
+    params: { slug: entry.id.replace(/\.mdx$/, '') },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<PatternLayout
+  title={entry.data.title}
+  category={entry.data.category}
+  intent={entry.data.intent}
+  complexity={entry.data.complexity}
+  relatedPatterns={entry.data.relatedPatterns}
+>
+  <Content />
+</PatternLayout>

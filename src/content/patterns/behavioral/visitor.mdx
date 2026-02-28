@@ -1,0 +1,69 @@
+---
+title: "Visitor"
+category: "behavioral"
+intent: "Represent an operation to be performed on the elements of an object structure."
+complexity: "high"
+popularity: "medium"
+relatedPatterns: ["composite", "iterator", "strategy"]
+order: 11
+---
+
+import CodeTabs from '../../../components/CodeTabs.astro';
+
+import visitorInterface from '../../../code/behavioral/visitor/order-visitor.interface.ts?raw';
+import elementInterface from '../../../code/behavioral/visitor/order-item-element.interface.ts?raw';
+import physicalItem from '../../../code/behavioral/visitor/physical-item.ts?raw';
+import digitalItem from '../../../code/behavioral/visitor/digital-item.ts?raw';
+import subscriptionItem from '../../../code/behavioral/visitor/subscription-item.ts?raw';
+import taxVisitor from '../../../code/behavioral/visitor/tax-calculator.visitor.ts?raw';
+import shippingVisitor from '../../../code/behavioral/visitor/shipping-cost.visitor.ts?raw';
+import discountVisitor from '../../../code/behavioral/visitor/discount.visitor.ts?raw';
+
+## The Problem
+
+Different item types (physical, digital, subscription) have different rules for tax, shipping, and discounts. Adding new operations (like a tax calculator) requires modifying every item class. The item hierarchy is stable, but the operations performed on it change frequently.
+
+## The Solution
+
+The Visitor pattern separates operations from the item class hierarchy. Each item implements `accept(visitor)` for double dispatch. New operations are added by creating new visitor classes, without touching existing item code.
+
+## Structure
+
+- **Visitor** (interface `OrderVisitor`) — Declares `visitPhysicalItem()`, `visitDigitalItem()`, `visitSubscriptionItem()`.
+- **Concrete Visitors** — `TaxCalculatorVisitor`, `ShippingCostVisitor`, `DiscountVisitor`.
+- **Element** (interface `OrderItemElement`) — Declares `accept(visitor)`.
+- **Concrete Elements** — `PhysicalItem`, `DigitalItem`, `SubscriptionItem`.
+
+## Implementation
+
+Three visitors compute different aspects of an order:
+
+1. **TaxCalculatorVisitor** — Physical: 10% tax, Digital: 5%, Subscription: 8%.
+2. **ShippingCostVisitor** — Physical: $5.99/item, Digital: $0, Subscription: $0.
+3. **DiscountVisitor** — Physical: 0%, Digital: 15% off, Subscription: 20% off.
+
+<CodeTabs tabs={[
+  { filename: 'order-visitor.interface.ts', code: visitorInterface },
+  { filename: 'order-item-element.interface.ts', code: elementInterface },
+  { filename: 'physical-item.ts', code: physicalItem },
+  { filename: 'digital-item.ts', code: digitalItem },
+  { filename: 'subscription-item.ts', code: subscriptionItem },
+  { filename: 'tax-calculator.visitor.ts', code: taxVisitor },
+  { filename: 'shipping-cost.visitor.ts', code: shippingVisitor },
+  { filename: 'discount.visitor.ts', code: discountVisitor },
+]} />
+
+## NestJS Integration
+
+The visitors are decorated with `@Injectable()` and registered as providers. The controller injects all three visitors and creates item elements from the request body. Each item's `accept()` method performs double dispatch, calling the appropriate `visit*` method on the visitor. This keeps the NestJS layer thin — the controller orchestrates, the visitors compute.
+
+## When to Use
+
+- You need to perform many unrelated operations on objects in a structure and want to avoid polluting their classes.
+- The element class hierarchy is stable but operations change frequently.
+- You want to accumulate results across an object structure.
+
+### When NOT to Use
+
+- The element hierarchy changes frequently — each new element type requires updating all visitors.
+- The operations are closely related to the elements' data, making them natural methods on the element classes.

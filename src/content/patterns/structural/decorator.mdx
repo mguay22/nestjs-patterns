@@ -1,0 +1,64 @@
+---
+title: "Decorator"
+category: "structural"
+intent: "Attach additional responsibilities to an object dynamically."
+complexity: "medium"
+popularity: "high"
+relatedPatterns: ["composite", "strategy", "chain-of-responsibility"]
+order: 4
+---
+
+import CodeTabs from '../../../components/CodeTabs.astro';
+
+import processorInterface from '../../../code/structural/decorator/order-processor.interface.ts?raw';
+import baseProcessor from '../../../code/structural/decorator/base-order-processor.ts?raw';
+import loggingDecorator from '../../../code/structural/decorator/logging.decorator.ts?raw';
+import validationDecorator from '../../../code/structural/decorator/validation.decorator.ts?raw';
+import discountDecorator from '../../../code/structural/decorator/discount.decorator.ts?raw';
+import trackExecution from '../../../code/structural/decorator/track-execution.decorator.ts?raw';
+
+## The Problem
+
+An e-commerce platform needs to process orders with varying combinations of cross-cutting concerns: sometimes orders need validation, sometimes logging, sometimes a discount is applied, and sometimes all three. Creating subclasses for every combination leads to an exponential number of classes.
+
+## The Solution
+
+The Decorator pattern wraps the base `OrderProcessor` in one or more decorator objects that each add a specific behavior while preserving the same interface. Decorators delegate to the wrapped object and augment the result. They can be stacked in any order, and the client specifies which decorators to apply at runtime.
+
+## Structure
+
+- **Component Interface** (`OrderProcessor`) — Defines the `process(order)` method.
+- **Concrete Component** (`BaseOrderProcessor`) — Core implementation that creates an order and calculates the total.
+- **Decorators** (`LoggingDecorator`, `ValidationDecorator`, `DiscountDecorator`) — Each wraps an `OrderProcessor`, calls the wrapped object's method, and adds its own behavior.
+- **TypeScript Method Decorator** (`TrackExecution`) — A NestJS-style method decorator that measures execution time, demonstrating that GoF Decorator and language-level decorators serve complementary purposes.
+
+## Implementation
+
+The `BaseOrderProcessor` takes a list of items, sums their prices, and returns a `ProcessedOrder` with a `steps` array tracking what happened.
+
+The `ValidationDecorator` checks that items and prices are valid. The `LoggingDecorator` logs details to the console. The `DiscountDecorator` applies a 10% discount. Each decorator appends its action to the `steps` array.
+
+<CodeTabs tabs={[
+  { filename: 'order-processor.interface.ts', code: processorInterface },
+  { filename: 'base-order-processor.ts', code: baseProcessor },
+  { filename: 'validation.decorator.ts', code: validationDecorator },
+  { filename: 'logging.decorator.ts', code: loggingDecorator },
+  { filename: 'discount.decorator.ts', code: discountDecorator },
+  { filename: 'track-execution.decorator.ts', code: trackExecution },
+]} />
+
+## NestJS Integration
+
+The `DecoratorController` is the only NestJS-managed class. The `BaseOrderProcessor` and its decorators are plain classes instantiated at request time, allowing fully dynamic composition based on the request payload. The `@TrackExecution()` TypeScript method decorator shows how NestJS's native decorator system parallels the GoF Decorator at the language level.
+
+## When to Use
+
+- You need to add responsibilities to objects dynamically and transparently.
+- You want to combine multiple independent behaviors in different configurations at runtime.
+- Subclassing is impractical because the number of combinations would lead to a class explosion.
+- You are building a processing pipeline where steps can be added, removed, or reordered.
+
+### When NOT to Use
+
+- You only need one fixed combination of behaviors that will never change.
+- Decorators rely on a stable component interface; if it changes frequently, maintenance becomes burdensome.

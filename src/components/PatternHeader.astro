@@ -1,0 +1,50 @@
+---
+import type { Category, Complexity } from '../data/patterns';
+
+interface Props {
+  title: string;
+  category: Category;
+  intent: string;
+  complexity: Complexity;
+}
+
+const { title, category, intent, complexity } = Astro.props;
+
+const categoryColors: Record<Category, { badge: string; label: string }> = {
+  creational: { badge: 'bg-amber-100 text-amber-800', label: 'Creational' },
+  structural: { badge: 'bg-blue-100 text-blue-700', label: 'Structural' },
+  behavioral: { badge: 'bg-emerald-100 text-emerald-700', label: 'Behavioral' },
+};
+
+const complexityLabels: Record<Complexity, string> = { low: 'Low', medium: 'Medium', high: 'High' };
+const complexityColors: Record<Complexity, string> = { low: 'text-green-600', medium: 'text-yellow-600', high: 'text-red-600' };
+const complexityDots: Record<Complexity, number> = { low: 1, medium: 2, high: 3 };
+
+const cat = categoryColors[category];
+---
+
+<div class="border-b border-gray-200 bg-gradient-to-b from-gray-50 to-white">
+  <div class="mx-auto max-w-4xl px-4 py-10 sm:px-6">
+    <div class="flex flex-wrap items-center gap-3 mb-4">
+      <span class:list={['rounded-full px-3 py-1 text-xs font-semibold', cat.badge]}>
+        {cat.label}
+      </span>
+      <span class:list={['flex items-center gap-1.5 text-xs font-medium', complexityColors[complexity]]}>
+        Complexity:
+        <span class="flex items-center gap-0.5">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <span
+              class:list={[
+                'inline-block h-1.5 w-1.5 rounded-full',
+                i < complexityDots[complexity] ? 'bg-current' : 'bg-gray-200',
+              ]}
+            />
+          ))}
+        </span>
+        {complexityLabels[complexity]}
+      </span>
+    </div>
+    <h1 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">{title} Pattern</h1>
+    <p class="mt-3 text-lg text-gray-600">{intent}</p>
+  </div>
+</div>

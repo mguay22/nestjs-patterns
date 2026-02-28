@@ -1,0 +1,65 @@
+---
+title: "Facade"
+category: "structural"
+intent: "Provide a unified interface to a set of interfaces in a subsystem."
+complexity: "low"
+popularity: "high"
+relatedPatterns: ["adapter", "mediator", "abstract-factory"]
+order: 5
+---
+
+import CodeTabs from '../../../components/CodeTabs.astro';
+
+import inventoryService from '../../../code/structural/facade/inventory.service.ts?raw';
+import paymentService from '../../../code/structural/facade/payment.service.ts?raw';
+import shippingService from '../../../code/structural/facade/shipping.service.ts?raw';
+import notificationService from '../../../code/structural/facade/notification.service.ts?raw';
+import orderFacade from '../../../code/structural/facade/order-facade.service.ts?raw';
+
+## The Problem
+
+Placing an order in an e-commerce platform involves multiple subsystems: checking inventory, processing payment, creating a shipment, and sending a confirmation notification. If the client had to orchestrate calls to each service directly, it would need to understand the correct sequence, handle errors, and coordinate data. This makes the controller bloated and the workflow fragile.
+
+## The Solution
+
+The Facade pattern introduces a single `OrderFacadeService` that encapsulates the entire order placement workflow. The client makes one call to `placeOrder()`, and the facade coordinates all four subsystems internally in the correct order with proper error handling.
+
+## Structure
+
+- **Subsystem Classes** (`InventoryService`, `PaymentService`, `ShippingService`, `NotificationService`) — Individual services that handle specific concerns.
+- **Facade** (`OrderFacadeService`) — Orchestrates the subsystem classes in the correct sequence, exposing a single `placeOrder()` method.
+- **Client** (`FacadeController`) — Interacts only with the facade.
+
+## Implementation
+
+The facade coordinates a four-step workflow:
+
+1. **Inventory Check** — Verifies all items are in stock.
+2. **Payment Processing** — Charges the customer.
+3. **Shipment Creation** — Creates a shipping record with carrier and estimated delivery.
+4. **Confirmation** — Sends an order confirmation email.
+
+<CodeTabs tabs={[
+  { filename: 'inventory.service.ts', code: inventoryService },
+  { filename: 'payment.service.ts', code: paymentService },
+  { filename: 'shipping.service.ts', code: shippingService },
+  { filename: 'notification.service.ts', code: notificationService },
+  { filename: 'order-facade.service.ts', code: orderFacade },
+]} />
+
+## NestJS Integration
+
+All subsystem services and the facade are registered as `@Injectable()` providers. The `OrderFacadeService` receives all four services through constructor injection. The module exports `OrderFacadeService` so other modules can use the simplified interface without importing individual subsystem services. This aligns naturally with NestJS's modular architecture, where the facade acts as the module's public API.
+
+## When to Use
+
+- You want to provide a simple interface to a complex subsystem.
+- You want to decouple client code from subsystem internals.
+- You are orchestrating a multi-step workflow where sequence and error handling should be centralized.
+- You want to reduce the number of dependencies client code must manage.
+
+### When NOT to Use
+
+- The subsystem is already simple enough that a facade would be a pass-through.
+- Clients need fine-grained control over individual subsystem operations.
+- The facade risks becoming a "God object" — consider splitting into multiple facades.
